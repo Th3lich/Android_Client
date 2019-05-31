@@ -28,7 +28,7 @@
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view3"
-                app:srcCompat="@drawable/usuario_64" />
+                app:srcCompat="@drawable/dni_64" />
 
             <TextView
                 android:id="@+id/tv_nombre"
@@ -68,10 +68,10 @@
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/view4"
-                app:srcCompat="@drawable/ic_account_circle_24dp" />
+                app:srcCompat="@drawable/ubicacion_64" />
 
             <TextView
-                android:id="@+id/tv_correo"
+                android:id="@+id/tv_usuario_title"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="32dp"
@@ -82,7 +82,7 @@
                 android:text="@string/user"
                 android:textColor="#000000"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_email_perfil"
+                app:layout_constraintBottom_toTopOf="@+id/tv_user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView10"
                 app:layout_constraintTop_toBottomOf="@+id/view3" />
@@ -108,7 +108,7 @@
                 app:srcCompat="@drawable/usuario_64" />
 
             <TextView
-                android:id="@+id/tv_identidad"
+                android:id="@+id/tv_direccion_title"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="32dp"
@@ -116,10 +116,10 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="3dp"
                 android:gravity="center_vertical"
-                android:text="@string/user"
+                android:text="@string/direccion"
                 android:textColor="#000000"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_nif"
+                app:layout_constraintBottom_toTopOf="@+id/tv_direccion"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView11"
@@ -137,7 +137,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView11" />
 
             <TextView
-                android:id="@+id/tv_email_perfil"
+                android:id="@+id/tv_user"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="32dp"
@@ -148,10 +148,10 @@
                 app:layout_constraintBottom_toTopOf="@+id/view4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView10"
-                app:layout_constraintTop_toBottomOf="@+id/tv_correo" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_usuario_title" />
 
             <TextView
-                android:id="@+id/tv_nif"
+                android:id="@+id/tv_direccion"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="32dp"
@@ -162,7 +162,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/view5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView11"
-                app:layout_constraintTop_toBottomOf="@+id/tv_identidad" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_direccion_title" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
@@ -174,12 +174,12 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/button"
+        android:background="@drawable/filled_button"
         android:drawableLeft="@drawable/salir_24"
-        android:drawableTint="@color/colorAccent"
+        android:drawableTint="@color/colorBackground"
         android:onClick="logout"
         android:text="@string/logout"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

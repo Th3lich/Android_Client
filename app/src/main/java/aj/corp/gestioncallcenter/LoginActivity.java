@@ -1,5 +1,6 @@
 package aj.corp.gestioncallcenter;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -59,11 +60,11 @@ public class LoginActivity extends AppCompatActivity {
             til_user.setError(null);
             til_pass.setError(null);
 
-            login();
+            login(edt_user.getText().toString(), edt_pass.getText().toString());
         }
     }
 
-    private void login(){
+    private void login(String user, String pass){
         apiService.login(ApplicationContext.getAppContext(),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -79,13 +80,15 @@ public class LoginActivity extends AppCompatActivity {
                                 System.out.println("USUARIO");
                             }
                             segunda();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
 
                         }catch(JSONException e){
                             e.printStackTrace();
                         }
                     }
                 }
-                , "alejandro", "123456");
+                , user, pass);
 
     }
 
