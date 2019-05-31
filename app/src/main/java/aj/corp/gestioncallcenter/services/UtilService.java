@@ -168,18 +168,6 @@ public class UtilService {
         this.deleteKeyFromSharedPreferences("Fecha_contratacion");
     }
 
-    public void savePermisosToSharedPreferences(String permisos){
-        this.saveStringToSharedPreferences("permisos", permisos);
-    }
-
-    public String getPermisosToSharedPreferences(){
-        return this.getStringFromSharedPreferences("permisos");
-    }
-
-    public void deletePermisosToSharedPreferences(){
-        this.deleteKeyFromSharedPreferences("permisos");
-    }
-
     public void saveAllSharedPreferences(String token, String refresh, String user_id, String user, String nombre, String apellidos, String direccion, String telefono, String fecha_cont, String permisos){
         saveTokenToSharedPreferences(token);
         saveRefreshTokenToSharedPreferences(refresh);
@@ -192,6 +180,18 @@ public class UtilService {
         saveFechaContToSharedPreferences(fecha_cont);
         savePermisosToSharedPreferences(permisos);
     }*/
+
+    public void savePermisosToSharedPreferences(String permisos){
+        this.saveStringToSharedPreferences("permisos", permisos);
+    }
+
+    public String getPermisosToSharedPreferences(){
+        return this.getStringFromSharedPreferences("permisos");
+    }
+
+    public void deletePermisosToSharedPreferences(){
+        this.deleteKeyFromSharedPreferences("permisos");
+    }
 
     public String encodeBase64(String str){
         try {
