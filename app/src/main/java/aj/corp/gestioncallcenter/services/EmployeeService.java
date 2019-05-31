@@ -45,7 +45,7 @@ public class EmployeeService {
         }catch(JSONException e){
             e.printStackTrace();
         }
-        Volley.newRequestQueue(context).add(this.apiService.put(this.serviceURL,callback,parameters));
+        Volley.newRequestQueue(context).add(this.apiService.put(this.serviceURL+"/pass",callback,parameters));
     }
 
     public void saveEmpleadoToSharedPreferences(Empleado empleado){
