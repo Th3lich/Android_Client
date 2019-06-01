@@ -1,5 +1,6 @@
 package aj.corp.gestioncallcenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,16 +13,40 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.android.volley.Response;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import aj.corp.gestioncallcenter.models.Empleado;
+import aj.corp.gestioncallcenter.services.ApiService;
+import aj.corp.gestioncallcenter.services.EmployeeService;
+import aj.corp.gestioncallcenter.services.UtilService;
+import aj.corp.gestioncallcenter.shared.ApplicationContext;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final ApiService apiService = new ApiService();
+    private final UtilService utilService = new UtilService();
+    private final EmployeeService employeeService = new EmployeeService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initEmpleado();
+        checkUser();
+
+        setFragment(0);
+    }
+
+    public void initEmpleado(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("");
+        toolbar.setTitle("Inicio");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -30,9 +55,31 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
+    public void checkUser(){
+        apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    System.out.println(response.toString());
+                    utilService.saveTokenToSharedPreferences(response.getString("token"));
+                    utilService.saveRefreshTokenToSharedPreferences(response.getString("refresh"));
+                    employeeService.saveEmpleadoToSharedPreferences(new Gson().fromJson(response.getString("empleado"), Empleado.class));
 
-        setFragment(0);
+                    if(response.getInt("permisos") > 5){
+                        System.out.println("ADMINISTRADOR");
+                        
+                    }else {
+                        System.out.println("USUARIO");
+
+                    }
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

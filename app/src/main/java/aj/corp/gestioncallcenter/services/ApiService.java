@@ -76,6 +76,11 @@ public class ApiService {
         Volley.newRequestQueue(context).add(this.get(this.API+"/login",callback, this.getBasicLoginHeaders(login,pass)));
     }
 
+    public void checkUser(Context context, Response.Listener<JSONObject> callback){
+        System.out.println("CHECK SESION");
+        Volley.newRequestQueue(context).add(this.get(this.API+"/login",callback, this.getDefaultHeaders()));
+    }
+
     public void renovarToken(){
         Volley.newRequestQueue(ApplicationContext.getAppContext()).add(
                 this.get(this.API + "/login", new Response.Listener<JSONObject>() {

@@ -59,11 +59,4 @@ public class EmployeeService {
     public void deleteEmpleadoFromSharedPreferences(){
         this.utilService.deleteKeyFromSharedPreferences("empleado");
     }
-
-
-
-    /*
-
-     */
-
 }
