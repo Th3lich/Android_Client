@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import aj.corp.gestioncallcenter.models.Empleado;
+import aj.corp.gestioncallcenter.models.Operador;
 import aj.corp.gestioncallcenter.services.ApiService;
 import aj.corp.gestioncallcenter.services.EmployeeService;
 import aj.corp.gestioncallcenter.services.OperatorService;
@@ -28,13 +29,15 @@ public class LoginActivity extends AppCompatActivity {
     private final ApiService apiService = new ApiService();
     private final UtilService utilService = new UtilService();
     private final OperatorService operatorService = new OperatorService();
-    private final RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
+
+    private RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
 
     TextInputLayout til_user, til_pass;
     EditText edt_user, edt_pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -65,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String user, String pass){
-        apiService.login(ApplicationContext.getAppContext(),
+        queue.add(apiService.login(
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -88,12 +91,13 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 }
-                , user, pass);
+                , user, pass)
+        );
 
     }
 
     private void segunda(){
-        operatorService.getOperadores(ApplicationContext.getAppContext(),
+        operatorService.getOperadores(
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
