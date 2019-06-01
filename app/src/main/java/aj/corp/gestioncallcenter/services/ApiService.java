@@ -1,12 +1,14 @@
 package aj.corp.gestioncallcenter.services;
 
 import android.content.Context;
+import android.util.JsonReader;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
@@ -71,9 +73,9 @@ public class ApiService {
         };
     }
 
-    public void login(Context context,Response.Listener<JSONObject> callback, String login, String pass){
+    public JsonRequest login(Response.Listener<JSONObject> callback, String login, String pass){
         System.out.println("LOGIN");
-        Volley.newRequestQueue(context).add(this.get(this.API+"/login",callback, this.getBasicLoginHeaders(login,pass)));
+        return this.get(this.API+"/login",callback, this.getBasicLoginHeaders(login,pass));
     }
 
     public void checkUser(Context context, Response.Listener<JSONObject> callback){

@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -26,6 +28,8 @@ public class PerfilFragment extends Fragment {
     private EmployeeService employeeService = new EmployeeService();
     private Empleado empleado = employeeService.getEmpleadoFromSharedPreferences();
     private UtilService utilService = new UtilService();
+
+    private RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
 
     TextView tv_nombre, tv_user, tv_direccion, tv_telefono, tv_fecha, tv_empleado;
     Button bt_change_pass;
@@ -60,7 +64,7 @@ public class PerfilFragment extends Fragment {
     }
 
     public void changePass(){
-        employeeService.changePassword(ApplicationContext.getAppContext(),
+        queue.add(employeeService.changePassword(
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -68,7 +72,8 @@ public class PerfilFragment extends Fragment {
 
                     }
                 }
-                , empleado.Id, "123456");
+                , empleado.Id, "123456")
+        );
     }
 
 }
