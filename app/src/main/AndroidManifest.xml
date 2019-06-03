@@ -7,19 +7,36 @@
 
     <application
         android:name=".shared.ApplicationContext"
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:screenOrientation="portrait"
-        android:theme="@style/FakeTheme">
+        android:supportsRtl="true"
+        android:theme="@style/FakeTheme"
+        android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainActivity"
+            android:name=".CallResultsActivity"
+            android:label="@string/title_activity_call_results"
+            android:theme="@style/FakeTheme.NoActionBar"></activity>
+        <activity
+            android:name=".EditCallsActivity"
+            android:label="@string/title_activity_edit_calls"
+            android:theme="@style/FakeTheme.filledStatusBar" />
+        <activity
+            android:name=".AdminActivity"
             android:label=""
-            android:theme="@style/FakeTheme"></activity>
-        <activity android:name=".LoginActivity">
+            android:screenOrientation="portrait"
+            android:theme="@style/FakeTheme" />
+        <activity
+            android:name=".EmployeeActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/FakeTheme" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FakeTheme.filledStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

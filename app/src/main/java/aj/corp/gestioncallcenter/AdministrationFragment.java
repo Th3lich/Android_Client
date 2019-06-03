@@ -11,6 +11,7 @@ public class AdministrationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_administration, container, false);
+        getActivity().setTitle("Administración");
 
         return view;
     }

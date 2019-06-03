@@ -7,11 +7,27 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:actionBarTabTextStyle">@color/coloractionBarTabTextStyle</item>
         <item name="drawerArrowStyle">@style/DrawerArrowToggle</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
     </style>
 
 
     <style name="DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/drawerArrowStyle</item>
     </style>
+
+    <style name="FakeTheme.filledStatusBar" parent="FakeTheme">
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="FakeTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="FakeTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="FakeTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

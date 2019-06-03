@@ -11,8 +11,7 @@ public class PlanillasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_planillas, container, false);
-
-
+        getActivity().setTitle("Planillas");
 
         return view;
     }

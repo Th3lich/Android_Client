@@ -16,10 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import aj.corp.gestioncallcenter.models.Empleado;
-import aj.corp.gestioncallcenter.models.Operador;
 import aj.corp.gestioncallcenter.services.ApiService;
 import aj.corp.gestioncallcenter.services.EmployeeService;
-import aj.corp.gestioncallcenter.services.OperatorService;
 import aj.corp.gestioncallcenter.services.UtilService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
 
@@ -28,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
     private final EmployeeService employeeService = new EmployeeService();
     private final ApiService apiService = new ApiService();
     private final UtilService utilService = new UtilService();
-    private final OperatorService operatorService = new OperatorService();
 
     private RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
 
@@ -48,6 +45,13 @@ public class LoginActivity extends AppCompatActivity {
 
         til_user.setError(null);
         til_pass.setError(null);
+
+        apiService.context = LoginActivity.this;
+
+        if(utilService.getTokenFromSharedPreferences() != ""){
+            checkUser();
+        }
+
     }
 
     public void login(View view){
@@ -79,12 +83,14 @@ public class LoginActivity extends AppCompatActivity {
                             employeeService.saveEmpleadoToSharedPreferences(new Gson().fromJson(response.getString("empleado"), Empleado.class));
                             if(response.getInt("permisos") > 5){
                                 System.out.println("ADMINISTRADOR");
+                                Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                                startActivity(intent);
                             }else {
                                 System.out.println("USUARIO");
+                                Intent intent = new Intent(getApplicationContext(), EmployeeActivity.class);
+                                startActivity(intent);
                             }
-                            segunda();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
+
 
                         }catch(JSONException e){
                             e.printStackTrace();
@@ -96,7 +102,34 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void segunda(){
+    public void checkUser(){
+        queue.add(apiService.checkRefresh(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    System.out.println(response.toString());
+                    utilService.saveTokenToSharedPreferences(response.getString("token"));
+                    utilService.saveRefreshTokenToSharedPreferences(response.getString("refresh"));
+                    employeeService.saveEmpleadoToSharedPreferences(new Gson().fromJson(response.getString("empleado"), Empleado.class));
+
+                    if(response.getInt("permisos") > 5){
+                        System.out.println("ADMINISTRADOR");
+                        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                        startActivity(intent);
+                    }else{
+                        System.out.println("USUARIO");
+                        Intent intent = new Intent(getApplicationContext(), EmployeeActivity.class);
+                        startActivity(intent);
+                    }
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }));
+    }
+
+    /*private void segunda(){
         operatorService.getOperadores(
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -106,5 +139,5 @@ public class LoginActivity extends AppCompatActivity {
                         utilService.saveStringToSharedPreferences("operadores",response.toString());
                     }
                 });
-    }
+    }*/
 }

@@ -1,17 +1,15 @@
 <resources>
     <string name="app_name">GestionCallCenter</string>
+
+    <string name="c">C</string>
+    <string name="all">all</string>
+    <string name="enter">enter</string>
     <string name="user">Usuario</string>
     <string name="login">Iniciar Sesión</string>
     <string name="pass">Contraseña</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-
     <string name="home">Inicio</string>
-    <string name="call_register">Registrar Llamadas</string>
+    <string name="call_register">Registrar Llamada</string>
+    <string name="calls_register">Registrar Llamadas</string>
     <string name="perfil">Administrar Perfil</string>
     <string name="planillas">Planillas</string>
     <string name="administration">Administración</string>
@@ -25,5 +23,31 @@
     <string name="fecha">01/02/2019</string>
     <string name="empleado">Empleado</string>
     <string name="change_password">Cambiar Contraseña</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="select_day">Seleccionar Día</string>
+    <string name="operador">Operador</string>
+    <string name="minutos">Minutos</string>
+    <string name="tipo_telefono">Tipo Teléfono</string>
+    <string name="tipo_cliente">Tipo Cliente</string>
+    <string name="movil">Móvil</string>
+    <string name="fijo">Fijo</string>
+    <string name="cliente">Cliente</string>
+    <string name="publicidad">Publicidad</string>
+    <string name="repite">Repite</string>
+    <string name="edit_calls">Editar Llamadas</string>
+    <string name="title_activity_edit_calls">Editar Llamadas</string>
+    <string name="edit_last_call">Editar última llamada</string>
+    <string name="calls_search">Buscar Llamadas</string>
+    <string name="search_by_day">Buscar por día</string>
+    <string name="search_by_operator">Buscar por operador</string>
+    <string name="search_by_day_operator">Buscar por día y operador</string>
+    <string name="all_calls">Todas mis llamadas</string>
+    <string name="title_activity_call_results">CallResultsActivity</string>
+
 
 </resources>

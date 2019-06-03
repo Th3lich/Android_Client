@@ -3,11 +3,13 @@ package aj.corp.gestioncallcenter.services;
 import android.content.Context;
 
 import com.android.volley.Response;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import aj.corp.gestioncallcenter.models.Empleado;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class OperatorService {
@@ -15,8 +17,8 @@ public class OperatorService {
     private final ApiService apiService = new ApiService();
     private final String serviceURL = this.apiService.API+"/operador";
 
-    public JsonObjectRequest getOperadores(Response.Listener<JSONObject> callback){
-        return this.apiService.get(this.serviceURL,callback);
+    public JsonArrayRequest getOperadores(Response.Listener<JSONArray> callback){
+        return this.apiService.getArray(this.serviceURL,callback);
     }
 
     public JsonObjectRequest getOperadorById(Response.Listener<JSONObject> callback, String idOperador){

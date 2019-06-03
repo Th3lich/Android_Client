@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F3F3F</color>
-    <color name="colorPrimaryDark">#313131</color>
+    <color name="colorPrimary">#FA5B0F</color>
+    <color name="colorPrimaryDark">#242424</color>
     <color name="colorGrey">#555555</color>
     <color name="colorLightGrey">#CACACA</color>
-    <color name="colorAccent">#FF4917</color>
+    <color name="colorAccent">#FA5B0F</color>
     <color name="colorBackground">#ECECEC</color>
     <color name="coloractionBarTabTextStyle">#ECECEC</color>
     <color name="drawerArrowStyle">#ECECEC</color>
+    <color name="colorBlue">#2b4f6f</color>
+    <color name="colorDarkBlue">#2b4f6f</color>
+    <color name="colorText">#8a000000</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

@@ -8,6 +8,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import aj.corp.gestioncallcenter.models.Llamada;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class CallService {
@@ -28,20 +29,20 @@ public class CallService {
         return this.apiService.get(this.serviceURL+"/ultima",callback);
     }
 
-    public JsonRequest getAllLlamadas(Response.Listener<JSONObject> callback){
-        return this.apiService.get(this.serviceURL,callback);
+    public JsonRequest getAllLlamadas(Response.Listener<JSONArray> callback){
+        return this.apiService.getArray(this.serviceURL,callback);
     }
 
-    public JsonRequest getLlamadasByOperador(Response.Listener<JSONObject> callback, String idOperador){
-        return this.apiService.get(this.serviceURL+"/operador/"+idOperador,callback);
+    public JsonRequest getLlamadasByOperador(Response.Listener<JSONArray> callback, String idOperador){
+        return this.apiService.getArray(this.serviceURL+"/operador/"+idOperador,callback);
     }
 
-    public JsonRequest getLlamadasByDia(Response.Listener<JSONObject> callback, String dia){
-        return this.apiService.get(this.serviceURL+"/dia/"+dia,callback);
+    public JsonRequest getLlamadasByDia(Response.Listener<JSONArray> callback, String dia){
+        return this.apiService.getArray(this.serviceURL+"/dia/"+dia,callback);
     }
 
-    public JsonRequest getLlamadasByDiaOperador(Response.Listener<JSONObject> callback, String dia, String idOperador){
-        return this.apiService.get(this.serviceURL+"/dia/"+dia+"/operador/"+idOperador, callback);
+    public JsonRequest getLlamadasByDiaOperador(Response.Listener<JSONArray> callback, String dia, String idOperador){
+        return this.apiService.getArray(this.serviceURL+"/dia/"+dia+"/operador/"+idOperador, callback);
     }
 
     public JsonRequest getDailyReport(Response.Listener<JSONObject> callback, String dia){

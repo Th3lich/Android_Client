@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_call_register"
             android:icon="@drawable/ic_phone_in_talk_24dp"
-            android:title="@string/call_register" />
+            android:title="@string/calls_register" />
         <item
             android:id="@+id/nav_perfil"
             android:icon="@drawable/ic_account_circle_24dp"
@@ -24,10 +24,10 @@
             android:id="@+id/nav_planillas"
             android:icon="@drawable/ic_picture_as_pdf_24dp"
             android:title="@string/planillas"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/salir_24"
+            android:title="@string/logout" />
     </group>
-    <item
-        android:id="@+id/nav_logout"
-        android:icon="@drawable/ic_exit_to_app_24dp"
-        android:title="@string/logout" />
 
 </menu>

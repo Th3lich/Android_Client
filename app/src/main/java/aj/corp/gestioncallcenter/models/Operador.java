@@ -16,7 +16,8 @@ public class Operador {
     }
 
     public Operador(){
-
+        this.Id = "";
+        this.Nombre = "";
     }
 
     public Operador(JSONObject json){

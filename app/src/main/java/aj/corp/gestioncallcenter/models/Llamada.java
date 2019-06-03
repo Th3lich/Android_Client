@@ -16,7 +16,7 @@ public class Llamada {
     public boolean Repite;
     public int Empleado;
 
-    public Llamada(int Id, String Operador, String Dia, int Minutos, String Tipo, int Tipocli, boolean Repite, int Empleado) {
+    public Llamada(Integer Id, String Operador, String Dia, int Minutos, String Tipo, int Tipocli, boolean Repite, int Empleado) {
         this.Id = Id;
         this.Operador = Operador;
         this.Dia = Dia;
