@@ -23,7 +23,7 @@ public class Functions {
         alert.show();
     }
 
-    public static void SearchAlertDialog(final Context context, String message, String aceptar, String cancelar){
+    public static void SearchAlertDialog(final Context context, String message, String aceptar, String cancelar, final String day){
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setMessage(message);
         alert.setCancelable(true);
@@ -32,6 +32,7 @@ public class Functions {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(context, CallResultsActivity.class);
                 intent.putExtra("search", 1);
+                intent.putExtra("date", day);
                 context.startActivity(intent);
             }
         });

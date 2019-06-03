@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CallResultsActivity">
+    tools:context=".EditCallActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -16,12 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/FakeTheme"
+            app:popupTheme="@style/FakeTheme.filledStatusBar"
             app:subtitleTextColor="@color/coloractionBarTabTextStyle"
             app:titleTextColor="@color/coloractionBarTabTextStyle"/>
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_call_results" />
+    <include layout="@layout/content_call_edit" />
 
 </android.support.design.widget.CoordinatorLayout>

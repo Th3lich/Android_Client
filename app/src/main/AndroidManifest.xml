@@ -16,11 +16,15 @@
         android:theme="@style/FakeTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".EditCallActivity"
+            android:label="@string/title_activity_call_edit"
+            android:theme="@style/FakeTheme.filledStatusBar"></activity>
+        <activity
             android:name=".CallResultsActivity"
             android:label="@string/title_activity_call_results"
-            android:theme="@style/FakeTheme.NoActionBar"></activity>
+            android:theme="@style/FakeTheme.filledStatusBar" />
         <activity
-            android:name=".EditCallsActivity"
+            android:name=".CallsFilterActivity"
             android:label="@string/title_activity_edit_calls"
             android:theme="@style/FakeTheme.filledStatusBar" />
         <activity

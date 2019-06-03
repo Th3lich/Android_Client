@@ -48,6 +48,12 @@
     <string name="search_by_day_operator">Buscar por día y operador</string>
     <string name="all_calls">Todas mis llamadas</string>
     <string name="title_activity_call_results">CallResultsActivity</string>
+    <string name="vacio" />
+    <string name="call">Llamada</string>
+    <string name="title_activity_call_edit">CallEditActivity</string>
+    <string name="save_changes">Guardar Cambios</string>
+    <string name="delete_call">Eliminar Llamada</string>
+    <string name="calls">No hay resultados</string>
 
 
 </resources>

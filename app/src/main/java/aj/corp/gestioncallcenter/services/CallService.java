@@ -25,6 +25,10 @@ public class CallService {
     public static final int[] CLIENT_TYPES = {CLIENT_TYPE_CLIENTE, CLIENT_TYPE_PUBLICIDAD};
     public static final String[] PHONE_TYPES = {PHONE_TYPE_FIJO, PHONE_TYPE_MOVIL};
 
+    public JsonRequest getLlamada(Response.Listener<JSONObject> callback, Integer idLlamada){
+        return this.apiService.get(this.serviceURL+"/"+idLlamada, callback);
+    }
+
     public JsonRequest getUltimaLlamada(Response.Listener<JSONObject> callback){
         return this.apiService.get(this.serviceURL+"/ultima",callback);
     }
