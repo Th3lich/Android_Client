@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view16"
+        android:id="@+id/view_month_gen"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
     <View
-        android:id="@+id/view17"
+        android:id="@+id/view_month_pubcli"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="1dp"
@@ -36,10 +36,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view16" />
+        app:layout_constraintTop_toBottomOf="@+id/view_month_gen" />
 
     <View
-        android:id="@+id/view18"
+        android:id="@+id/view_month_op"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="1dp"
@@ -47,10 +47,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view17" />
+        app:layout_constraintTop_toBottomOf="@+id/view_month_pubcli" />
 
     <View
-        android:id="@+id/view19"
+        android:id="@+id/view_month_year"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -70,7 +70,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view18" />
+        app:layout_constraintTop_toBottomOf="@+id/view_month_op" />
 
     <TextView
         android:id="@+id/textView25"
@@ -80,8 +80,8 @@
         android:layout_marginTop="15dp"
         android:text="@string/planilla_men_general"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/view16"
-        app:layout_constraintTop_toTopOf="@+id/view16" />
+        app:layout_constraintStart_toStartOf="@+id/view_month_gen"
+        app:layout_constraintTop_toTopOf="@+id/view_month_gen" />
 
     <TextView
         android:id="@+id/textView26"
@@ -92,7 +92,7 @@
         android:text="@string/planilla_men_pubcli"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view17" />
+        app:layout_constraintTop_toTopOf="@+id/view_month_pubcli" />
 
     <TextView
         android:id="@+id/textView27"
@@ -103,7 +103,7 @@
         android:text="@string/planilla_men_op"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view18" />
+        app:layout_constraintTop_toTopOf="@+id/view_month_op" />
 
     <TextView
         android:id="@+id/textView28"
@@ -114,7 +114,7 @@
         android:text="@string/planilla_anu_gen"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view19" />
+        app:layout_constraintTop_toTopOf="@+id/view_month_year" />
 
     <ImageView
         android:id="@+id/imageView16"
@@ -123,7 +123,7 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view16"
+        app:layout_constraintTop_toTopOf="@+id/view_month_gen"
         app:srcCompat="@drawable/ic_picture_as_pdf_24dp" />
 
     <ImageView
@@ -133,7 +133,7 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view18"
+        app:layout_constraintTop_toTopOf="@+id/view_month_op"
         app:srcCompat="@drawable/ic_picture_as_pdf_24dp" />
 
     <ImageView
@@ -143,7 +143,7 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view17"
+        app:layout_constraintTop_toTopOf="@+id/view_month_pubcli"
         app:srcCompat="@drawable/ic_picture_as_pdf_24dp" />
 
     <ImageView
@@ -153,7 +153,7 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view19"
+        app:layout_constraintTop_toTopOf="@+id/view_month_year"
         app:srcCompat="@drawable/ic_picture_as_pdf_24dp"
         />
 

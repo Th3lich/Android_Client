@@ -62,6 +62,7 @@
     <string name="planilla_men_op">Planilla Mensual Operadores</string>
     <string name="planilla_anu_gen">Planilla Anual General</string>
     <string name="re_pass">Repetir Contraseña</string>
+    <string name="title_activity_planilla">Planilla</string>
 
 
 </resources>

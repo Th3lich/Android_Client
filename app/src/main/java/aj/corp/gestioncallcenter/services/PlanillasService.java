@@ -30,4 +30,8 @@ public class PlanillasService {
         return this.apiService.getString(this.serviceURL+"planilla_anual/"+anio+"/pdf", callback);
     }
 
+    public String getServiceURL(){
+        return this.serviceURL;
+    }
+
 }

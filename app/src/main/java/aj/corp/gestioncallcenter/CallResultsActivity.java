@@ -1,8 +1,6 @@
 package aj.corp.gestioncallcenter;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -16,19 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.TextView;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.util.ArrayList;
-
 import aj.corp.gestioncallcenter.adapters.AdapterLlamadas;
 import aj.corp.gestioncallcenter.models.Llamada;
-import aj.corp.gestioncallcenter.models.Operador;
 import aj.corp.gestioncallcenter.services.CallService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
 import aj.corp.gestioncallcenter.utilities.RecyclerItemTouchHelper;

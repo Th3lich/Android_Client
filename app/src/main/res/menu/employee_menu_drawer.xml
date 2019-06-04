@@ -12,9 +12,14 @@
             android:id="@+id/nav_perfil"
             android:icon="@drawable/ic_account_circle_24dp"
             android:title="@string/perfil" />
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/salir_24"
-            android:title="@string/logout" />
     </group>
+
+    <item android:title="Otros">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/salir_24"
+                android:title="@string/logout" />
+        </menu>
+    </item>
 </menu>
