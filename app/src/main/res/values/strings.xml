@@ -63,6 +63,10 @@
     <string name="planilla_anu_gen">Planilla Anual General</string>
     <string name="re_pass">Repetir Contraseña</string>
     <string name="title_activity_planilla">Planilla</string>
+    <string name="empleados">Empleados</string>
+    <string name="operadores">Operadores</string>
+    <string name="title_activity_search_employee">Buscar Empleado</string>
+    <string name="title_activity_search_operator">SearchOperatorActivity</string>
 
 
 </resources>

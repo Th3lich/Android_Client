@@ -21,6 +21,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_menu"
         app:menu="@menu/employee_menu_drawer"
-        app:itemTextColor="@color/colorText"/>
+        app:itemTextColor="@color/colorText" />
 
 </android.support.v4.widget.DrawerLayout>

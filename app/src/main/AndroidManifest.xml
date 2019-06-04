@@ -16,10 +16,20 @@
         android:theme="@style/FakeTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".SearchOperatorActivity"
+            android:label="@string/title_activity_search_operator"
+            android:screenOrientation="portrait"
+            android:theme="@style/FakeTheme.filledStatusBar"></activity>
+        <activity
+            android:name=".SearchEmployeeActivity"
+            android:label="@string/title_activity_search_employee"
+            android:screenOrientation="portrait"
+            android:theme="@style/FakeTheme.filledStatusBar" />
+        <activity
             android:name=".PlanillaActivity"
             android:label="@string/title_activity_planilla"
             android:screenOrientation="portrait"
-            android:theme="@style/FakeTheme.filledStatusBar"></activity>
+            android:theme="@style/FakeTheme.filledStatusBar" />
         <activity
             android:name=".EditCallActivity"
             android:label="@string/title_activity_call_edit"
