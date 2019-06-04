@@ -1,9 +1,11 @@
 package aj.corp.gestioncallcenter;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Browser;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +14,7 @@ import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -58,14 +61,32 @@ public class PlanillaActivity extends AppCompatActivity {
 
         year = getIntent().getStringExtra("year");
 
-        Uri path = Uri.parse(url+"planilla_anual/"+year+"/pdf");
-        Intent pdfIntent = new Intent(Intent.ACTION_QUICK_VIEW);
+
+        // DESCARGA
+        DownloadManager.Request request = new DownloadManager.Request(
+                Uri.parse(url+"planilla_anual/"+year+"/pdf"));
+        request.setMimeType("application/pdf");
+        request.addRequestHeader("Authorization","Bearer "+utilService.getTokenFromSharedPreferences() );
+        request.setDescription("Descargando Planilla...");
+        request.allowScanningByMediaScanner();
+        request.setTitle("Planilla Anual " + year);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalFilesDir(PlanillaActivity.this,
+                Environment.DIRECTORY_DOWNLOADS,".pdf");
+        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        dm.enqueue(request);
+        Toast.makeText(getApplicationContext(), "Descargando Planilla...", Toast.LENGTH_LONG).show();
+
+
+        //MOSTRAR, VER SI VAN HEADERS
+       /* Uri path = Uri.parse(url+"planilla_anual/"+year+"/pdf");
+        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
         Bundle bundle = new Bundle();
-        bundle.putString("authorization","Bearer "+utilService.getTokenFromSharedPreferences());
+        bundle.putString("Authorization","Bearer "+utilService.getTokenFromSharedPreferences());
         pdfIntent.putExtra(Browser.EXTRA_HEADERS, bundle);
         pdfIntent.setDataAndType(path, "application/pdf");
         pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(pdfIntent);
+        startActivity(pdfIntent);*/
 
 
 
