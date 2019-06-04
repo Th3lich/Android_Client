@@ -1,11 +1,21 @@
 package aj.corp.gestioncallcenter;
 
+import android.app.DownloadManager;
+import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Browser;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -13,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,13 +61,43 @@ public class PlanillaActivity extends AppCompatActivity {
 
         year = getIntent().getStringExtra("year");
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Authorization", "Bearer "+utilService.getTokenFromSharedPreferences());
 
-//        webView.loadUrl(url+"planilla_anual/"+year+"/pdf", headers);
+        // DESCARGA
+        DownloadManager.Request request = new DownloadManager.Request(
+                Uri.parse(url+"planilla_anual/"+year+"/pdf"));
+        request.setMimeType("application/pdf");
+        request.addRequestHeader("Authorization","Bearer "+utilService.getTokenFromSharedPreferences() );
+        request.setDescription("Descargando Planilla...");
+        request.allowScanningByMediaScanner();
+        request.setTitle("Planilla Anual " + year);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalFilesDir(PlanillaActivity.this,
+                Environment.DIRECTORY_DOWNLOADS,".pdf");
+        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        dm.enqueue(request);
+        Toast.makeText(getApplicationContext(), "Descargando Planilla...", Toast.LENGTH_LONG).show();
+
+
+        //MOSTRAR, VER SI VAN HEADERS
+       /* Uri path = Uri.parse(url+"planilla_anual/"+year+"/pdf");
+        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+        Bundle bundle = new Bundle();
+        bundle.putString("Authorization","Bearer "+utilService.getTokenFromSharedPreferences());
+        pdfIntent.putExtra(Browser.EXTRA_HEADERS, bundle);
+        pdfIntent.setDataAndType(path, "application/pdf");
+        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(pdfIntent);*/
+
+
+
+        //webView.getSettings().setJavaScriptEnabled(true);
+        //Map<String, String> headers = new HashMap<String, String>();
+        //headers.put("Authorization", "Bearer "+utilService.getTokenFromSharedPreferences());
+        //System.out.println(url+"planilla_anual/"+year+"/pdf");
+
+        //webView.loadUrl(url+"planilla_anual/"+year+"/html", headers);
 //        webView.loadUrl("http://docs.google.com/gview?embedded=true&url="+url+"planilla_anual/"+year+"/pdf", headers);
-//        loadYearlyGeneralReport();
+        //loadYearlyGeneralReport();
 
     }
 
@@ -77,9 +118,18 @@ public class PlanillaActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println(response);
-                        webView.loadDataWithBaseURL(url+"planilla_anual/"+year+"/pdf", response, "application/pdf", "utf-8", null);
-                        webView.loadData(response, "application/pdf","utf-8");
+                        System.out.println("ONRESPONSE");
+
+
+                        //File file = new File("");
+                        //Map<String, String> headers = new HashMap<String, String>();
+                        //headers.put("Authorization", "Bearer "+utilService.getTokenFromSharedPreferences());
+                        //webView.setWebChromeClient(new WebChromeClient());
+                        //webView.setWebViewClient(new WebViewClient());
+                        //webView.loadUrl("http://docs.google.com/gview?embedded=true&url="+url+"planilla_anual/"+year+"/pdf", headers);
+                        //webView.loadUrl("http://google.es");
+                        //webView.loadDataWithBaseURL(url+"planilla_anual/"+year+"/pdf", response, "application/pdf", "utf-8", null);
+                        //webView.loadData(response, "application/pdf","utf-8");
                     }
                 }, year));
     }
