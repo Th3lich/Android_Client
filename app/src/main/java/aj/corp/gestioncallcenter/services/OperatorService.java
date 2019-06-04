@@ -1,12 +1,9 @@
 package aj.corp.gestioncallcenter.services;
 
-import android.content.Context;
-
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import aj.corp.gestioncallcenter.models.Empleado;
 
 import org.json.JSONArray;

@@ -1,7 +1,6 @@
 package aj.corp.gestioncallcenter.services;
 
 import android.content.Context;
-import android.util.JsonReader;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -13,7 +12,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
-import aj.corp.gestioncallcenter.utilities.Functions;
+import aj.corp.gestioncallcenter.utilities.Dialogs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +45,15 @@ public class ApiService {
             @Override
             public Map getHeaders(){
                 return customHeaders;
+            }
+        };
+    }
+
+    public StringRequest getString(String url, Response.Listener<String> successResponse){
+        return new StringRequest(Request.Method.GET, url, successResponse, this.errorRequest()){
+            @Override
+            public Map getHeaders(){
+                return getDefaultHeaders();
             }
         };
     }
@@ -231,7 +239,7 @@ public class ApiService {
                             titulo = "Error desconocido";
                             mensaje = "Lo sentimos, algo salió mal. Comprueba tu conexión a Internet y vuelve a intentarlo";
                     }
-                    Functions.ErrorAlertDialog(context, titulo, mensaje, "aceptar" );
+                    Dialogs.ErrorAlertDialog(context, titulo, mensaje, "aceptar" );
                 }catch (Exception e){
 
                 }

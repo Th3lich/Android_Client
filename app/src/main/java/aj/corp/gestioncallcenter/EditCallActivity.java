@@ -1,7 +1,6 @@
 package aj.corp.gestioncallcenter;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -39,6 +37,7 @@ import aj.corp.gestioncallcenter.services.EmployeeService;
 import aj.corp.gestioncallcenter.services.OperatorService;
 import aj.corp.gestioncallcenter.services.UtilService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
+import aj.corp.gestioncallcenter.utilities.Dialogs;
 
 public class EditCallActivity extends AppCompatActivity {
 
@@ -52,7 +51,7 @@ public class EditCallActivity extends AppCompatActivity {
 
     private Llamada llamada;
     private Operador operador;
-    private String tipo_telefono, operador_id;
+    private String tipo_telefono;
     private int tipo_cliente;
     private boolean repite = false;
 
@@ -75,6 +74,13 @@ public class EditCallActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.coloractionBarTabTextStyle), PorterDuff.Mode.SRC_ATOP);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         checkUser();
 
@@ -116,6 +122,7 @@ public class EditCallActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         et_fecha.setText(year+"-"+dayOfMonth+"-"+(monthOfYear+1));
+                        llamada.Dia = year+"-"+dayOfMonth+"-"+(monthOfYear+1);
                     }
                 }
                         ,dia,mes,ano);
@@ -128,8 +135,10 @@ public class EditCallActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     repite = true;
+                    llamada.Repite = true;
                 }else{
                     repite = false;
+                    llamada.Repite = false;
                 }
             }
         });
@@ -138,6 +147,7 @@ public class EditCallActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tipo_telefono = "movil";
+                llamada.Tipo = "movil";
             }
         });
 
@@ -145,6 +155,7 @@ public class EditCallActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tipo_telefono = "fijo";
+                llamada.Tipo = "fijo";
             }
         });
 
@@ -152,6 +163,7 @@ public class EditCallActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tipo_cliente = 1;
+                llamada.Tipocli = 1;
             }
         });
 
@@ -159,6 +171,7 @@ public class EditCallActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tipo_cliente = 3;
+                llamada.Tipocli = 3;
             }
         });
 
@@ -172,7 +185,7 @@ public class EditCallActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 operador = operadores.get(position);
-                operador_id = operador.Id;
+                llamada.Operador = operador.Id;
             }
 
             @Override
@@ -250,23 +263,29 @@ public class EditCallActivity extends AppCompatActivity {
                         if(llamada.Tipocli == 3){
                             rb_publicidad.setChecked(true);
                         }
-                        operador_id = llamada.Operador;
                     }
                 }, id));
     }
 
     public void putLlamada(){
+        String minutos = et_minutos.getText().toString();
+        String dia = et_fecha.getText().toString();
+        if(minutos.isEmpty() || dia.isEmpty()){
+            Dialogs.ErrorAlertDialog(EditCallActivity.this, "", "No puede haber campos vacíos", "aceptar");
+        }else {
 
-        Llamada llamada_edit = new Llamada(llamada.Id, operador.Id, et_fecha.getText().toString(), Integer.parseInt(et_minutos.getText().toString()), tipo_telefono, tipo_cliente, repite, empleado.Id);
+            Llamada llamada_edit = new Llamada(llamada.Id, llamada.Operador, et_fecha.getText().toString(), Integer.parseInt(minutos), llamada.Tipo, llamada.Tipocli, llamada.Repite, empleado.Id);
 
-        queue.add(callService.put(
-                new Response.Listener<JSONObject>() {
+            queue.add(callService.put(
+                    new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        System.out.println(response.toString());
-                    }
-                }, llamada_edit));
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            System.out.println(response.toString());
+                            Dialogs.VolverAlertDialog(EditCallActivity.this, "Llamada Editada", "La llamada se editó correctamente", "continuar", "volver");
+                        }
+                    }, llamada_edit));
+        }
     }
 
     public void deleteLlamada(){
@@ -276,6 +295,7 @@ public class EditCallActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         System.out.println(response);
+                        finish();
                     }
                 }, llamada));
     }

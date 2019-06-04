@@ -12,4 +12,5 @@
     <color name="colorDarkBlue">#2b4f6f</color>
     <color name="colorText">#8a000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="bgRowBackground">#FA315B</color>
 </resources>

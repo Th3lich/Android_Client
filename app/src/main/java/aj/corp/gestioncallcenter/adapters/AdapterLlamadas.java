@@ -1,6 +1,9 @@
 package aj.corp.gestioncallcenter.adapters;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import aj.corp.gestioncallcenter.CallResultsActivity;
 import aj.corp.gestioncallcenter.EditCallActivity;
 import aj.corp.gestioncallcenter.R;
 import aj.corp.gestioncallcenter.models.Llamada;
@@ -30,11 +33,14 @@ public class AdapterLlamadas extends RecyclerView.Adapter<AdapterLlamadas.Llamad
     }
 
     public class LlamadasViewHolder extends RecyclerView.ViewHolder{
-        TextView tv_llamada;
+        public TextView tv_llamada;
+        public RelativeLayout viewBackground, viewForeground;
 
         public LlamadasViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_llamada = itemView.findViewById(R.id.tv_llamada);
+            viewBackground = itemView.findViewById(R.id.view_background);
+            viewForeground = itemView.findViewById(R.id.view_foreground);
         }
     }
 
@@ -67,9 +73,18 @@ public class AdapterLlamadas extends RecyclerView.Adapter<AdapterLlamadas.Llamad
         return llamadas.size();
     }
 
+    public void removeItem(final int position){
+        llamadas.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Llamada llamada, int position){
+        llamadas.add(position, llamada);
+        notifyItemRemoved(position);
+    }
+
     private void setAnimation(View viewToAnimate, int position)
     {
-        // If the bound view wasn't previously displayed on screen, it's animated
         if (position > lastPosition)
         {
             Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);

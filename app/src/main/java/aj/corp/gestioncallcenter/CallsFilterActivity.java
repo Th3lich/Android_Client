@@ -36,7 +36,7 @@ import aj.corp.gestioncallcenter.services.EmployeeService;
 import aj.corp.gestioncallcenter.services.OperatorService;
 import aj.corp.gestioncallcenter.services.UtilService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
-import aj.corp.gestioncallcenter.utilities.Functions;
+import aj.corp.gestioncallcenter.utilities.Dialogs;
 
 public class CallsFilterActivity extends AppCompatActivity {
 
@@ -103,7 +103,11 @@ public class CallsFilterActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         System.out.println(response.toString());
                         llamada = new Llamada(response);
-                        tv_last_call.setText(llamada.Dia +" - " +llamada.Operador +" - " +llamada.Minutos +" min");
+                        if(llamada.Id == 0){
+                            tv_last_call.setText("Aún no tienes llamadas");
+                        }else{
+                            tv_last_call.setText(llamada.Dia +" - " +llamada.Operador +" - " +llamada.Minutos +" min");
+                        }
                     }
         }));
     }
@@ -129,9 +133,13 @@ public class CallsFilterActivity extends AppCompatActivity {
     }
 
     public void editLastCall(View view){
-        Intent intent = new Intent(CallsFilterActivity.this, EditCallActivity.class);
-        intent.putExtra("llamada", llamada.Id);
-        startActivity(intent);
+        if(llamada.Id == 0){
+
+        }else{
+            Intent intent = new Intent(CallsFilterActivity.this, EditCallActivity.class);
+            intent.putExtra("llamada", llamada.Id);
+            startActivity(intent);
+        }
     }
 
     public void searchByDay(View view){
@@ -144,7 +152,7 @@ public class CallsFilterActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 day = year+"-"+(monthOfYear+1)+"-"+dayOfMonth;
-                Functions.SearchAlertDialog(CallsFilterActivity.this,"Buscar llamadas del día: "+day, "buscar", "cancelar", day);
+                Dialogs.SearchAlertDialog(CallsFilterActivity.this,"Buscar llamadas del día: "+day, "buscar", "cancelar", day);
             }
         }
                 ,dia,mes,ano);

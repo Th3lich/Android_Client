@@ -1,12 +1,19 @@
 package aj.corp.gestioncallcenter;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,8 +31,10 @@ import aj.corp.gestioncallcenter.models.Llamada;
 import aj.corp.gestioncallcenter.models.Operador;
 import aj.corp.gestioncallcenter.services.CallService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
+import aj.corp.gestioncallcenter.utilities.RecyclerItemTouchHelper;
+import aj.corp.gestioncallcenter.utilities.RecyclerItemTouchHelperListener;
 
-public class CallResultsActivity extends AppCompatActivity {
+public class CallResultsActivity extends AppCompatActivity implements RecyclerItemTouchHelperListener {
 
     private RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
     private CallService callService = new CallService();
@@ -35,6 +44,7 @@ public class CallResultsActivity extends AppCompatActivity {
     private TextView tv_sin_resultados;
     private ArrayList<Llamada> llamadas = new ArrayList<>();
     private AdapterLlamadas adapterLlamadas;
+    private CoordinatorLayout root_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +64,7 @@ public class CallResultsActivity extends AppCompatActivity {
             }
         });
 
+        root_layout = findViewById(R.id.root_layout);
         rv_llamadas = findViewById(R.id.rv_llamadas);
         tv_sin_resultados = findViewById(R.id.tv_sin_resultados);
 
@@ -185,10 +196,39 @@ public class CallResultsActivity extends AppCompatActivity {
                 }));
     }
 
+    public void deleteLlamada(final Llamada llamada){
+        queue.add(callService.delete(
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                        Snackbar snackbar = Snackbar.make(root_layout, "Llamada "+llamada.Id +" eliminada", Snackbar.LENGTH_SHORT);
+                        snackbar.show();
+                    }
+                }, llamada));
+    }
+
     public void setRecycler(){
-        adapterLlamadas = new AdapterLlamadas(getApplicationContext(), llamadas);
+        adapterLlamadas = new AdapterLlamadas(CallResultsActivity.this, llamadas);
         adapterLlamadas.notifyDataSetChanged();
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(CallResultsActivity.this);
+        rv_llamadas.setLayoutManager(layoutManager);
+        rv_llamadas.setItemAnimator(new DefaultItemAnimator());
+        rv_llamadas.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rv_llamadas.setAdapter(adapterLlamadas);
-        rv_llamadas.setLayoutManager(new LinearLayoutManager(CallResultsActivity.this, LinearLayoutManager.VERTICAL, false));
+
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallBack = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, CallResultsActivity.this);
+        new ItemTouchHelper(itemTouchHelperCallBack).attachToRecyclerView(rv_llamadas);
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
+        if(viewHolder instanceof AdapterLlamadas.LlamadasViewHolder){
+            Llamada deletedItem = llamadas.get(position);
+            adapterLlamadas.removeItem(position);
+            deleteLlamada(deletedItem);
+        }
     }
 }

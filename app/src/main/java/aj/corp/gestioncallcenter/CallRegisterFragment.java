@@ -38,7 +38,7 @@ import aj.corp.gestioncallcenter.services.EmployeeService;
 import aj.corp.gestioncallcenter.services.OperatorService;
 import aj.corp.gestioncallcenter.services.UtilService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
-import aj.corp.gestioncallcenter.utilities.Functions;
+import aj.corp.gestioncallcenter.utilities.Dialogs;
 
 public class CallRegisterFragment extends Fragment {
 
@@ -220,16 +220,23 @@ public class CallRegisterFragment extends Fragment {
     }
 
     private void postLlamada(){
-        queue.add(callService.post(
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        System.out.println(response.toString());
-                        Functions.ErrorAlertDialog(getActivity(), "Llamada Registrada", "La llamada se registró correctamente en el sistema", "aceptar");
+        String minutos = et_minutos.getText().toString();
+        String dia = et_fecha.getText().toString();
+        if(minutos.isEmpty() || dia.isEmpty()){
+            Dialogs.ErrorAlertDialog(getActivity(), "", "No puede haber campos vacíos", "aceptar");
+        }else {
+
+            queue.add(callService.post(
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            System.out.println(response.toString());
+                            Dialogs.ErrorAlertDialog(getActivity(), "Llamada Registrada", "La llamada se registró correctamente en el sistema", "aceptar");
+                        }
                     }
+                    , new Llamada(null, operador.Id, dia, Integer.parseInt(minutos),
+                            tipo_telefono, tipo_cliente, repite, empleado.Id)));
         }
-        , new Llamada(null, operador.Id, et_fecha.getText().toString(), Integer.parseInt(et_minutos.getText().toString()),
-                        tipo_telefono, tipo_cliente, repite, empleado.Id)));
     }
 
 }

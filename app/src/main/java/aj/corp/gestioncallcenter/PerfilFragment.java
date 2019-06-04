@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +27,7 @@ import aj.corp.gestioncallcenter.services.ApiService;
 import aj.corp.gestioncallcenter.services.EmployeeService;
 import aj.corp.gestioncallcenter.services.UtilService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
-import aj.corp.gestioncallcenter.utilities.Functions;
+import aj.corp.gestioncallcenter.utilities.Dialogs;
 
 public class PerfilFragment extends Fragment {
 
@@ -98,7 +97,7 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(et_pass.getText().toString().compareTo(et_repass.getText().toString()) != 0){
-                    Functions.ErrorAlertDialog(getActivity(), "", "Las contraseñas no coinciden, vuelve a intentarlo", "aceptar");
+                    Dialogs.ErrorAlertDialog(getActivity(), "", "Las contraseñas no coinciden, vuelve a intentarlo", "aceptar");
                 }else{
                     queue.add(employeeService.changePassword(
                             new Response.Listener<JSONObject>() {

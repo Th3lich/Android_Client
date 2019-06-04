@@ -34,7 +34,7 @@
             android:id="@+id/et_repass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/pass"
+            android:hint="@string/re_pass"
             android:imeOptions="actionSend"
             android:inputType="textPassword" />
 

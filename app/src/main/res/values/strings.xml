@@ -54,6 +54,14 @@
     <string name="save_changes">Guardar Cambios</string>
     <string name="delete_call">Eliminar Llamada</string>
     <string name="calls">No hay resultados</string>
+    <string name="empty_last_call">Aún no tienes llamadas registradas</string>
+    <string name="planillas_mensuales">Planillas mensuales</string>
+    <string name="planillas_anuales">Planillas Anuales</string>
+    <string name="planilla_men_general">Planilla Mensual General</string>
+    <string name="planilla_men_pubcli">Planilla Mensual Publi/Clientes</string>
+    <string name="planilla_men_op">Planilla Mensual Operadores</string>
+    <string name="planilla_anu_gen">Planilla Anual General</string>
+    <string name="re_pass">Repetir Contraseña</string>
 
 
 </resources>
