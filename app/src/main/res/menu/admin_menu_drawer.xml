@@ -13,24 +13,24 @@
             android:icon="@drawable/ic_phone_in_talk_24dp"
             android:title="@string/calls_register" />
         <item
+            android:id="@+id/nav_planillas"
+            android:icon="@drawable/ic_picture_as_pdf_24dp"
+            android:title="@string/planillas"/>
+        <item
             android:id="@+id/nav_perfil"
             android:icon="@drawable/ic_account_circle_24dp"
             android:title="@string/perfil" />
         <item
-            android:id="@+id/nav_planillas"
-            android:icon="@drawable/ic_picture_as_pdf_24dp"
-            android:title="@string/planillas"/>
+            android:id="@+id/nav_administration"
+            android:icon="@drawable/ic_build_24dp"
+            android:title="@string/administration" />
     </group>
 
     <item android:title="Otros">
         <menu>
             <item
-                android:id="@+id/nav_administration"
-                android:icon="@drawable/ic_build_24dp"
-                android:title="@string/administration" />
-            <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/salir_24"
+                android:icon="@drawable/ic_power_settings_24dp"
                 android:title="@string/logout" />
         </menu>
     </item>

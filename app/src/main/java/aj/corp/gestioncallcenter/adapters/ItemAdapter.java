@@ -9,34 +9,44 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import aj.corp.gestioncallcenter.EditCallActivity;
+import aj.corp.gestioncallcenter.AddEditEmployeeActivity;
 import aj.corp.gestioncallcenter.R;
+import aj.corp.gestioncallcenter.SearchEmployeeActivity;
 import aj.corp.gestioncallcenter.models.Item;
-import aj.corp.gestioncallcenter.models.Llamada;
 
-/*public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
 
     public ArrayList<Item> items;
     public Context context;
     private int lastPosition = -1;
+    private boolean isOperator = false;
 
     public ItemAdapter(Context context, ArrayList<Item> items){
         this.context = context;
         this.items = items;
     }
 
+    public ItemAdapter(Context context, ArrayList<Item> items, boolean isOperator){
+        this.context = context;
+        this.items = items;
+        this.isOperator = isOperator;
+    }
+
     public class ItemViewHolder extends RecyclerView.ViewHolder{
-        public TextView tv_llamada;
+        public ImageView iv_user;
+        public TextView tv_item;
         public RelativeLayout viewBackground, viewForeground;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_llamada = itemView.findViewById(R.id.tv_llamada);
+            iv_user = itemView.findViewById(R.id.iv_user);
+            tv_item = itemView.findViewById(R.id.tv_item);
             viewBackground = itemView.findViewById(R.id.view_background);
             viewForeground = itemView.findViewById(R.id.view_foreground);
         }
@@ -45,40 +55,44 @@ import aj.corp.gestioncallcenter.models.Llamada;
     @NonNull
     @Override
     public ItemAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_call, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
         return new ItemAdapter.ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterLlamadas.LlamadasViewHolder llamadasViewHolder, int i) {
+    public void onBindViewHolder(@NonNull ItemAdapter.ItemViewHolder itemViewHolder, int i) {
         final Item item = items.get(i);
-        //llamada.Dia +" - " +llamada.Operador +" - " +llamada.Minutos +" min"
-        llamadasViewHolder.tv_llamada.setText(item.Contenido);
-        llamadasViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        itemViewHolder.tv_item.setText(item.Contenido);
+        itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, EditCallActivity.class);
-                intent.putExtra("llamada", item.Id);
-                context.startActivity(intent);
+                if(isOperator){
+
+                }else{
+                    Intent intent = new Intent(context, AddEditEmployeeActivity.class);
+                    intent.putExtra("empleado", item.Id);
+                    intent.putExtra("edit", true);
+                    context.startActivity(intent);
+                }
             }
         });
 
-        setAnimation(llamadasViewHolder.itemView,  i);
+        setAnimation(itemViewHolder.itemView,  i);
 
     }
 
     @Override
     public int getItemCount() {
-        return llamadas.size();
+        return items.size();
     }
 
     public void removeItem(final int position){
-        llamadas.remove(position);
+        items.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void restoreItem(Llamada llamada, int position){
-        llamadas.add(position, llamada);
+    public void restoreItem(Item item, int position){
+        items.add(position, item);
         notifyItemRemoved(position);
     }
 
@@ -92,4 +106,4 @@ import aj.corp.gestioncallcenter.models.Llamada;
         }
     }
 
-}*/
+}

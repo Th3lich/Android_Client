@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
         apiService.context = LoginActivity.this;
 
-        if(utilService.getTokenFromSharedPreferences() != ""){
+        if(utilService.getTokenFromSharedPreferences() != null){
             checkUser();
         }
 

@@ -37,6 +37,7 @@ import aj.corp.gestioncallcenter.services.OperatorService;
 import aj.corp.gestioncallcenter.services.UtilService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
 import aj.corp.gestioncallcenter.utilities.Dialogs;
+import aj.corp.gestioncallcenter.utilities.Functions;
 
 public class CallsFilterActivity extends AppCompatActivity {
 
@@ -106,7 +107,7 @@ public class CallsFilterActivity extends AppCompatActivity {
                         if(llamada.Id == 0){
                             tv_last_call.setText("Aún no tienes llamadas");
                         }else{
-                            tv_last_call.setText(llamada.Dia +" - " +llamada.Operador +" - " +llamada.Minutos +" min");
+                            tv_last_call.setText(Functions.DateSimpleConversion(llamada.Dia) +" - " +llamada.Operador +" - " +llamada.Minutos +" min");
                         }
                     }
         }));

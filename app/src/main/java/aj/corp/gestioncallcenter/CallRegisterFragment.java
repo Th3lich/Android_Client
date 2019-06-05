@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -55,7 +56,8 @@ public class CallRegisterFragment extends Fragment {
     private int tipo_cliente = 1;
     private boolean repite = false;
 
-    private EditText et_minutos, et_fecha;
+    private NumberPicker picker_minutos;
+    private EditText et_fecha;
     private Button bt_call_register, bt_select_day, bt_edit_calls;
     private RadioButton rb_movil, rb_fijo, rb_cliente, rb_publicidad;
     private Spinner sp_operadores;
@@ -71,7 +73,7 @@ public class CallRegisterFragment extends Fragment {
         getActivity().setTitle("Registrar Llamada");
         apiService.context = getActivity();
 
-        et_minutos = view.findViewById(R.id.et_minutos);
+        picker_minutos = view.findViewById(R.id.picker_minutos);
         et_fecha = view.findViewById(R.id.et_fecha);
         bt_call_register = view.findViewById(R.id.bt_call_register);
         bt_select_day = view.findViewById(R.id.bt_select_day);
@@ -82,6 +84,10 @@ public class CallRegisterFragment extends Fragment {
         rb_publicidad = view.findViewById(R.id.rb_publicidad);
         sp_operadores = view.findViewById(R.id.sp_operadores);
         sw_repite = view.findViewById(R.id.sw_repite);
+
+        picker_minutos.setMinValue(0);
+        picker_minutos.setMaxValue(1000);
+        picker_minutos.setValue(1);
 
         rb_movil.setChecked(true);
         rb_cliente.setChecked(true);
@@ -220,9 +226,10 @@ public class CallRegisterFragment extends Fragment {
     }
 
     private void postLlamada(){
-        String minutos = et_minutos.getText().toString();
+        int minutos = picker_minutos.getValue();
+        System.out.println("MINUTOS "+minutos);
         String dia = et_fecha.getText().toString();
-        if(minutos.isEmpty() || dia.isEmpty()){
+        if(dia.isEmpty()){
             Dialogs.ErrorAlertDialog(getActivity(), "", "No puede haber campos vacíos", "aceptar");
         }else {
 
@@ -234,7 +241,7 @@ public class CallRegisterFragment extends Fragment {
                             Dialogs.ErrorAlertDialog(getActivity(), "Llamada Registrada", "La llamada se registró correctamente en el sistema", "aceptar");
                         }
                     }
-                    , new Llamada(null, operador.Id, dia, Integer.parseInt(minutos),
+                    , new Llamada(null, operador.Id, dia, minutos,
                             tipo_telefono, tipo_cliente, repite, empleado.Id)));
         }
     }

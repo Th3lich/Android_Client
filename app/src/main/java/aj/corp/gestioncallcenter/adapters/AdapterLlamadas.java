@@ -1,9 +1,6 @@
 package aj.corp.gestioncallcenter.adapters;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,12 +11,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import aj.corp.gestioncallcenter.EditCallActivity;
 import aj.corp.gestioncallcenter.R;
 import aj.corp.gestioncallcenter.models.Llamada;
+import aj.corp.gestioncallcenter.utilities.Functions;
 
 public class AdapterLlamadas extends RecyclerView.Adapter<AdapterLlamadas.LlamadasViewHolder> {
 
@@ -54,7 +50,7 @@ public class AdapterLlamadas extends RecyclerView.Adapter<AdapterLlamadas.Llamad
     @Override
     public void onBindViewHolder(@NonNull LlamadasViewHolder llamadasViewHolder, int i) {
         final Llamada llamada = llamadas.get(i);
-        llamadasViewHolder.tv_llamada.setText(llamada.Dia +" - " +llamada.Operador +" - " +llamada.Minutos +" min");
+        llamadasViewHolder.tv_llamada.setText(Functions.DateSimpleConversion(llamada.Dia)  +" - " +llamada.Operador +" - " +llamada.Minutos +" min");
         llamadasViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

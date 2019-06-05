@@ -1,5 +1,7 @@
 package aj.corp.gestioncallcenter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -219,9 +221,28 @@ public class CallResultsActivity extends AppCompatActivity implements RecyclerIt
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, final int position) {
         if(viewHolder instanceof AdapterLlamadas.LlamadasViewHolder){
-            Llamada deletedItem = llamadas.get(position);
+            final Llamada deletedItem = llamadas.get(position);
             adapterLlamadas.removeItem(position);
-            deleteLlamada(deletedItem);
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(CallResultsActivity.this);
+            alert.setTitle("Eliminar Llamada");
+            alert.setMessage("¿Seguro que quieres eliminar la llamada?");
+            alert.setCancelable(true);
+            alert.setPositiveButton("confirmar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    deleteLlamada(deletedItem);
+                    dialog.cancel();
+                }
+            });
+            alert.setNegativeButton("cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    adapterLlamadas.restoreItem(deletedItem, position);
+                    dialog.cancel();
+                }
+            });
+            alert.show();
         }
     }
 }

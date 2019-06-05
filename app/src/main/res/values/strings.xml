@@ -67,6 +67,19 @@
     <string name="operadores">Operadores</string>
     <string name="title_activity_search_employee">Buscar Empleado</string>
     <string name="title_activity_search_operator">SearchOperatorActivity</string>
+    <string name="title_activity_add_edit_employee">AddEditEmployeeActivity</string>
+    <string name="name">Nombre:</string>
+    <string name="apellidos">Apellidos:</string>
+    <string name="lastname">Apellidos</string>
+    <string name="direction">Dirección:</string>
+    <string name="phone">Teléfono</string>
+    <string name="dir">dirección</string>
+    <string name="telf">teléfono</string>
+    <string name="admin">Administrador</string>
+    <string name="date">0000-00-00</string>
+    <string name="rest_pass">Restaurar Contraseña</string>
+    <string name="delete_employee">Eliminar Empleado</string>
+    <string name="add_employee">Añadir Empleado</string>
 
 
 </resources>

@@ -17,10 +17,15 @@
         android:theme="@style/FakeTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AddEditEmployeeActivity"
+            android:label="@string/title_activity_add_edit_employee"
+            android:theme="@style/FakeTheme.filledStatusBar"
+            android:screenOrientation="portrait"></activity>
+        <activity
             android:name=".SearchOperatorActivity"
             android:label="@string/title_activity_search_operator"
             android:screenOrientation="portrait"
-            android:theme="@style/FakeTheme.filledStatusBar"></activity>
+            android:theme="@style/FakeTheme.filledStatusBar" />
         <activity
             android:name=".SearchEmployeeActivity"
             android:label="@string/title_activity_search_employee"

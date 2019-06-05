@@ -12,14 +12,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import aj.corp.gestioncallcenter.CallResultsActivity;
+import aj.corp.gestioncallcenter.PlanillaActivity;
 import aj.corp.gestioncallcenter.R;
 import aj.corp.gestioncallcenter.models.Operador;
+import aj.corp.gestioncallcenter.utilities.Functions;
 
 public class AdapterOperadores extends RecyclerView.Adapter<AdapterOperadores.OperadoresViewHolder> {
 
     private ArrayList<Operador> operadores;
     private String fecha;
     private Context context;
+    private boolean isPlanilla = false;
+    private String mes;
 
     public AdapterOperadores(Context context, ArrayList<Operador> operadores){
         this.operadores = operadores;
@@ -31,6 +35,13 @@ public class AdapterOperadores extends RecyclerView.Adapter<AdapterOperadores.Op
         this.operadores = operadores;
         this.fecha = fecha;
         this.context = context;
+    }
+
+    public AdapterOperadores(Context context, ArrayList<Operador> operadores, String mes, boolean isPlanilla){
+        this.operadores = operadores;
+        this.context = context;
+        this.mes = mes;
+        this.isPlanilla = isPlanilla;
     }
 
     public class OperadoresViewHolder extends RecyclerView.ViewHolder{
@@ -55,20 +66,33 @@ public class AdapterOperadores extends RecyclerView.Adapter<AdapterOperadores.Op
 
         final Operador operador = operadores.get(i);
         operadoresViewHolder.tv_operador.setText(operador.Nombre);
-        operadoresViewHolder.tv_fecha.setText(fecha);
+        if(isPlanilla){
+            operadoresViewHolder.tv_fecha.setText(mes);
+        }else{
+            operadoresViewHolder.tv_fecha.setText(Functions.DateSimpleConversion(fecha));
+        }
         operadoresViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, CallResultsActivity.class);
-                if(fecha != ""){
-                    intent.putExtra("search", 3);
+                if(isPlanilla){
+                    Intent intent = new Intent(context, PlanillaActivity.class);
+                    intent.putExtra("mes", mes);
+                    intent.putExtra("planilla", 3);
                     intent.putExtra("operador", operador.Id);
-                    intent.putExtra("date", fecha);
+                    context.startActivity(intent);
                 }else{
-                    intent.putExtra("search", 2);
-                    intent.putExtra("operador", operador.Id);
+                    Intent intent = new Intent(context, CallResultsActivity.class);
+                    if(fecha != ""){
+                        intent.putExtra("search", 3);
+                        intent.putExtra("operador", operador.Id);
+                        intent.putExtra("date", fecha);
+                    }else{
+                        intent.putExtra("search", 2);
+                        intent.putExtra("operador", operador.Id);
+                    }
+                    context.startActivity(intent);
                 }
-                context.startActivity(intent);
+
             }
         });
     }

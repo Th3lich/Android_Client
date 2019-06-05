@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -55,7 +56,8 @@ public class EditCallActivity extends AppCompatActivity {
     private int tipo_cliente;
     private boolean repite = false;
 
-    private EditText et_minutos, et_fecha;
+    private NumberPicker picker_minutos;
+    private EditText et_fecha;
     private Button bt_save_changes, bt_delete_call, bt_select_day;
     private RadioButton rb_movil, rb_fijo, rb_cliente, rb_publicidad;
     private Spinner sp_operadores;
@@ -84,7 +86,7 @@ public class EditCallActivity extends AppCompatActivity {
 
         checkUser();
 
-        et_minutos = findViewById(R.id.et_minutos);
+        picker_minutos = findViewById(R.id.picker_minutos);
         et_fecha = findViewById(R.id.et_fecha);
         bt_save_changes = findViewById(R.id.bt_save_changes);
         bt_delete_call = findViewById(R.id.bt_delete_call);
@@ -95,6 +97,9 @@ public class EditCallActivity extends AppCompatActivity {
         rb_publicidad = findViewById(R.id.rb_publicidad);
         sp_operadores = findViewById(R.id.sp_operadores);
         sw_repite = findViewById(R.id.sw_repite);
+
+        picker_minutos.setMinValue(0);
+        picker_minutos.setMaxValue(1000);
 
         bt_save_changes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,7 +250,7 @@ public class EditCallActivity extends AppCompatActivity {
                         System.out.println(response.toString());
                         llamada = new Llamada(response);
                         et_fecha.setText(llamada.Dia);
-//                        et_minutos.setText(getString(llamada.Minutos), TextView.BufferType.EDITABLE);
+                        picker_minutos.setValue(llamada.Minutos);
                         if(llamada.Repite){
                             sw_repite.setChecked(true);
                         }else{
@@ -268,13 +273,13 @@ public class EditCallActivity extends AppCompatActivity {
     }
 
     public void putLlamada(){
-        String minutos = et_minutos.getText().toString();
+        int minutos = picker_minutos.getValue();
         String dia = et_fecha.getText().toString();
-        if(minutos.isEmpty() || dia.isEmpty()){
+        if(dia.isEmpty()){
             Dialogs.ErrorAlertDialog(EditCallActivity.this, "", "No puede haber campos vacíos", "aceptar");
         }else {
 
-            Llamada llamada_edit = new Llamada(llamada.Id, llamada.Operador, et_fecha.getText().toString(), Integer.parseInt(minutos), llamada.Tipo, llamada.Tipocli, llamada.Repite, empleado.Id);
+            Llamada llamada_edit = new Llamada(llamada.Id, llamada.Operador, et_fecha.getText().toString(), minutos, llamada.Tipo, llamada.Tipocli, llamada.Repite, empleado.Id);
 
             queue.add(callService.put(
                     new Response.Listener<JSONObject>() {

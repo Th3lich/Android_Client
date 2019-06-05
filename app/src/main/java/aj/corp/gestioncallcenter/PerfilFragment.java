@@ -122,7 +122,7 @@ public class PerfilFragment extends Fragment {
         builder.show();
     }
 
-    public void checkUser(){
+    private void checkUser(){
         queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

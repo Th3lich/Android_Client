@@ -15,9 +15,9 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:background="#00FFFFFF"
-        android:drawableRight="@drawable/ic_today_24dp"
+        android:drawableLeft="@drawable/ic_today_24dp"
         android:drawableTint="@color/colorAccent"
-        android:gravity="start|center_vertical"
+        android:gravity="right|center_vertical"
         android:text="@string/select_day"
         android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,15 +26,15 @@
     <EditText
         android:id="@+id/et_fecha"
         android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="32dp"
+        android:background="@drawable/edit_text_borders"
         android:ems="10"
         android:inputType="date"
         android:textColor="@color/colorText"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/bt_select_day"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/bt_select_day"
+        app:layout_constraintStart_toEndOf="@+id/bt_select_day" />
 
     <TextView
         android:id="@+id/textView11"
@@ -61,23 +61,12 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
         android:text="@string/minutos"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView11"
-        app:layout_constraintStart_toStartOf="@+id/et_minutos" />
-
-    <EditText
-        android:id="@+id/et_minutos"
-        android:layout_width="70dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:inputType="number"
-        android:textColor="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textView13"
@@ -95,12 +84,12 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/tipo_cliente"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/rg_client_type"
-        app:layout_constraintTop_toBottomOf="@+id/et_minutos" />
+        app:layout_constraintTop_toBottomOf="@+id/picker_minutos" />
 
     <Switch
         android:id="@+id/sw_repite"
@@ -128,7 +117,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/movil"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"
+            android:textSize="15sp" />
 
         <RadioButton
             android:id="@+id/rb_fijo"
@@ -136,7 +126,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/fijo"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"
+            android:textSize="15sp" />
     </RadioGroup>
 
     <RadioGroup
@@ -154,7 +145,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/cliente"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"
+            android:textSize="15sp" />
 
         <RadioButton
             android:id="@+id/rb_publicidad"
@@ -162,7 +154,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/publicidad"
-            android:textColor="@color/colorText" />
+            android:textColor="@color/colorText"
+            android:textSize="15sp" />
     </RadioGroup>
 
     <TextView
@@ -209,5 +202,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/bt_save_changes" />
+
+    <NumberPicker
+        android:id="@+id/picker_minutos"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
 </android.support.constraint.ConstraintLayout>

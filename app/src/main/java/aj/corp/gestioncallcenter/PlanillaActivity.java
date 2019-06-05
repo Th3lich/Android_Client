@@ -10,35 +10,36 @@ import android.provider.Browser;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.webkit.DownloadListener;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
+import aj.corp.gestioncallcenter.models.Empleado;
+import aj.corp.gestioncallcenter.services.ApiService;
+import aj.corp.gestioncallcenter.services.EmployeeService;
 import aj.corp.gestioncallcenter.services.PlanillasService;
 import aj.corp.gestioncallcenter.services.UtilService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
 
 public class PlanillaActivity extends AppCompatActivity {
 
+    private EmployeeService employeeService = new EmployeeService();
     private RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
     private PlanillasService planillasService = new PlanillasService();
     private UtilService utilService = new UtilService();
     private String url = planillasService.getServiceURL();
+    private ApiService apiService = new ApiService();
 
     private String year;
+    private String id_operador;
+    private String mes;
     private WebView webView;
 
     @Override
@@ -59,79 +60,78 @@ public class PlanillaActivity extends AppCompatActivity {
 
         webView = findViewById(R.id.wb_planilla);
 
-        year = getIntent().getStringExtra("year");
+        setFilter();
+        checkUser();
+    }
 
+    public void setFilter(){
+        Intent intent = getIntent();
+        int search = intent.getIntExtra("planilla", 0);
 
-        // DESCARGA
+        switch (search){
+            case 1:
+                mes = intent.getStringExtra("mes");
+                System.out.println("FILTRO MES: "+mes);
+                descargarPlanilla("Planilla Mes", "planilla_mensual/", "/pdf");
+                break;
+            case 2:
+                mes = intent.getStringExtra("mes");
+                System.out.println("FILTRO MES PUBLI/CLI: "+mes);
+                descargarPlanilla("Planilla Mes Publi/Cli", "planilla_mensual_publi/", "/pdf");
+                break;
+            case 3:
+                mes = intent.getStringExtra("mes");
+                id_operador = intent.getStringExtra("operador");
+                System.out.println("FILTRO COMBINADO: "+mes +" " +id_operador);
+                descargarPlanilla("Planilla Mes y Operadores", "planilla_mensual_operador/"+mes+"/"+id_operador, "/pdfv");
+                break;
+            case 4:
+                System.out.println("SIN FILTRO");
+                year = intent.getStringExtra("year");
+                descargarPlanilla("Planilla Anual", "planilla_anual/", "/pdf");
+                break;
+        }
+    }
+
+    private void checkUser(){
+        queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    System.out.println(response.toString());
+                    utilService.saveTokenToSharedPreferences(response.getString("token"));
+                    utilService.saveRefreshTokenToSharedPreferences(response.getString("refresh"));
+                    employeeService.saveEmpleadoToSharedPreferences(new Gson().fromJson(response.getString("empleado"), Empleado.class));
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }));
+    }
+
+    public void descargarPlanilla(String title, String url_planilla, String formato){
         DownloadManager.Request request = new DownloadManager.Request(
-                Uri.parse(url+"planilla_anual/"+year+"/pdf"));
+                Uri.parse(url + url_planilla + mes + formato));
+        if(url_planilla.compareTo("planilla_anual/") == 0){
+            request = new DownloadManager.Request(
+                    Uri.parse(url + url_planilla + year + "/pdf"));
+        }
         request.setMimeType("application/pdf");
-        request.addRequestHeader("Authorization","Bearer "+utilService.getTokenFromSharedPreferences() );
+        request.addRequestHeader("Authorization", "Bearer " + utilService.getTokenFromSharedPreferences());
         request.setDescription("Descargando Planilla...");
         request.allowScanningByMediaScanner();
-        request.setTitle("Planilla Anual " + year);
+        if(title.compareTo("Planilla Anual") == 0){
+            request.setTitle(title +" " +year);
+        }else{
+            request.setTitle(title +" " +mes);
+        }
+
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalFilesDir(PlanillaActivity.this,
-                Environment.DIRECTORY_DOWNLOADS,".pdf");
+                Environment.DIRECTORY_DOWNLOADS, ".pdf");
         DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         dm.enqueue(request);
         Toast.makeText(getApplicationContext(), "Descargando Planilla...", Toast.LENGTH_LONG).show();
-
-
-        //MOSTRAR, VER SI VAN HEADERS
-       /* Uri path = Uri.parse(url+"planilla_anual/"+year+"/pdf");
-        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
-        Bundle bundle = new Bundle();
-        bundle.putString("Authorization","Bearer "+utilService.getTokenFromSharedPreferences());
-        pdfIntent.putExtra(Browser.EXTRA_HEADERS, bundle);
-        pdfIntent.setDataAndType(path, "application/pdf");
-        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(pdfIntent);*/
-
-
-
-        //webView.getSettings().setJavaScriptEnabled(true);
-        //Map<String, String> headers = new HashMap<String, String>();
-        //headers.put("Authorization", "Bearer "+utilService.getTokenFromSharedPreferences());
-        //System.out.println(url+"planilla_anual/"+year+"/pdf");
-
-        //webView.loadUrl(url+"planilla_anual/"+year+"/html", headers);
-//        webView.loadUrl("http://docs.google.com/gview?embedded=true&url="+url+"planilla_anual/"+year+"/pdf", headers);
-        //loadYearlyGeneralReport();
-
-    }
-
-    public void loadMonthlyGeneralReport(){
-
-    }
-
-    public void loadMonthlyMarketingReport(){
-
-    }
-
-    public void loadMonthlyOperatorReport(){
-
-    }
-
-    public void loadYearlyGeneralReport(){
-        queue.add(planillasService.getPlanillaAnualGeneral(
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println("ONRESPONSE");
-
-
-                        //File file = new File("");
-                        //Map<String, String> headers = new HashMap<String, String>();
-                        //headers.put("Authorization", "Bearer "+utilService.getTokenFromSharedPreferences());
-                        //webView.setWebChromeClient(new WebChromeClient());
-                        //webView.setWebViewClient(new WebViewClient());
-                        //webView.loadUrl("http://docs.google.com/gview?embedded=true&url="+url+"planilla_anual/"+year+"/pdf", headers);
-                        //webView.loadUrl("http://google.es");
-                        //webView.loadDataWithBaseURL(url+"planilla_anual/"+year+"/pdf", response, "application/pdf", "utf-8", null);
-                        //webView.loadData(response, "application/pdf","utf-8");
-                    }
-                }, year));
     }
 
 }
