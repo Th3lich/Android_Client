@@ -37,6 +37,7 @@ public class PerfilFragment extends Fragment {
     private UtilService utilService = new UtilService();
     private RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
 
+    View view_direccion, view_telefono;
     TextView tv_nombre, tv_user, tv_direccion, tv_telefono, tv_fecha, tv_empleado;
     Button bt_logout;
 
@@ -50,6 +51,8 @@ public class PerfilFragment extends Fragment {
 
         checkUser();
 
+        view_direccion = view.findViewById(R.id.view_direccion);
+        view_telefono = view.findViewById(R.id.view_telefono);
         tv_nombre = view.findViewById(R.id.tv_nombre);
         tv_user = view.findViewById(R.id.tv_user);
         tv_direccion = view.findViewById(R.id.tv_direccion);
@@ -72,6 +75,20 @@ public class PerfilFragment extends Fragment {
         }else{
             tv_telefono.setText("sin teléfono");
         }
+
+        view_telefono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogChangeUser("Cambiar telefono", "telefono",2);
+            }
+        });
+
+        view_direccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogChangeUser("Cambiar direccion", "direccion",1);
+            }
+        });
 
         bt_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +164,51 @@ public class PerfilFragment extends Fragment {
                 }
             }
         }));
+    }
+
+    private void DialogChangeUser(String titulo, String hint, final int num){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(titulo);
+
+        View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_text, (ViewGroup) getView(), false);
+
+        final EditText et_dialog = viewInflated.findViewById(R.id.et_dialog);
+        et_dialog.setHint(hint);
+        builder.setView(viewInflated);
+
+        builder.setPositiveButton("cambiar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(num ==1){
+                    empleado.Direccion = et_dialog.getText().toString();
+                }else{
+                    empleado.Telefono = et_dialog.getText().toString();
+                }
+                putEmpleado();
+                dialog.cancel();
+            }
+        });
+
+        builder.setNegativeButton("cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void putEmpleado(){
+        queue.add(employeeService.put(new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                System.out.println(response.toString());
+                tv_direccion.setText(empleado.Direccion);
+                tv_telefono.setText(empleado.Telefono);
+                Dialogs.ErrorAlertDialog(getActivity(), "Usuario editado", "Tus datos se editaron correctamente", "aceptar");
+            }
+        }, empleado));
     }
 
     @Override
