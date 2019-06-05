@@ -94,7 +94,7 @@ public class PlanillaActivity extends AppCompatActivity {
     }
 
     private void checkUser(){
-        queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+        queue.add(apiService.checkUser(PlanillaActivity.this, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

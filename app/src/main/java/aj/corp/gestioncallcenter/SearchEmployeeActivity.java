@@ -90,8 +90,15 @@ public class SearchEmployeeActivity extends AppCompatActivity implements Recycle
         getEmpleados();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkUser();
+        getEmpleados();
+    }
+
     private void checkUser(){
-        queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+        queue.add(apiService.checkUser(SearchEmployeeActivity.this, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -114,9 +121,10 @@ public class SearchEmployeeActivity extends AppCompatActivity implements Recycle
                 try {
                     System.out.println(response.toString());
                     if(response != null){
+                        items.clear();
                         for(int i=0; i<response.length(); i++){
                             Empleado empleado = new Empleado(response.getJSONObject(i));
-                            items.add(new Item(empleado.Id, empleado.Nombre));
+                            items.add(new Item(String.valueOf(empleado.Id), empleado.Nombre));
                         }
                     }
                     itemAdapter.notifyDataSetChanged();
@@ -131,7 +139,7 @@ public class SearchEmployeeActivity extends AppCompatActivity implements Recycle
         queue.add(employeeService.delete(new Response.Listener<String>(){
             @Override
             public void onResponse(String response){
-                System.out.println(response.toString());
+                System.out.println(response);
                 Snackbar snackbar = Snackbar.make(root_layout, "Empleado "+empleado +" eliminado", Snackbar.LENGTH_SHORT);
                 snackbar.show();
             }
@@ -151,7 +159,7 @@ public class SearchEmployeeActivity extends AppCompatActivity implements Recycle
             alert.setPositiveButton("confirmar", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    deleteUser(deletedItem.Id);
+                    deleteUser(Integer.parseInt(deletedItem.Id));
                     dialog.cancel();
                 }
             });
@@ -163,8 +171,6 @@ public class SearchEmployeeActivity extends AppCompatActivity implements Recycle
                 }
             });
             alert.show();
-
-
         }
     }
 }

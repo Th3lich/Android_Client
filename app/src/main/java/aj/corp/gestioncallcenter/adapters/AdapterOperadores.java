@@ -68,7 +68,7 @@ public class AdapterOperadores extends RecyclerView.Adapter<AdapterOperadores.Op
         operadoresViewHolder.tv_operador.setText(operador.Nombre);
         if(isPlanilla){
             operadoresViewHolder.tv_fecha.setText(mes);
-        }else{
+        }else if(fecha.compareTo("") != 0){
             operadoresViewHolder.tv_fecha.setText(Functions.DateSimpleConversion(fecha));
         }
         operadoresViewHolder.itemView.setOnClickListener(new View.OnClickListener() {

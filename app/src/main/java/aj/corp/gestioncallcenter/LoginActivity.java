@@ -102,8 +102,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void checkUser(){
-        queue.add(apiService.checkRefresh(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+    private void checkUser(){
+        queue.add(apiService.checkRefresh(LoginActivity.this, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -128,16 +128,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         }));
     }
-
-    /*private void segunda(){
-        operatorService.getOperadores(
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // SE EJECUTA LA PETICION PERO NO LLEGA AQUI
-                        System.out.println(response.toString());
-                        utilService.saveStringToSharedPreferences("operadores",response.toString());
-                    }
-                });
-    }*/
 }

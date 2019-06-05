@@ -8,7 +8,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import aj.corp.gestioncallcenter.models.Empleado;
+import aj.corp.gestioncallcenter.services.ApiService;
+import aj.corp.gestioncallcenter.services.EmployeeService;
+import aj.corp.gestioncallcenter.services.UtilService;
+import aj.corp.gestioncallcenter.shared.ApplicationContext;
+
 public class AdministrationFragment extends Fragment {
+
+    private EmployeeService employeeService = new EmployeeService();
+    private ApiService apiService = new ApiService();
+    private UtilService utilService = new UtilService();
+    private RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
 
     CardView cv_empleado, cv_operador;
 
@@ -36,7 +55,26 @@ public class AdministrationFragment extends Fragment {
             }
         });
 
+        checkUser();
+
         return view;
+    }
+
+    private void checkUser(){
+        queue.add(apiService.checkUser(getActivity(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    System.out.println(response.toString());
+                    utilService.saveTokenToSharedPreferences(response.getString("token"));
+                    utilService.saveRefreshTokenToSharedPreferences(response.getString("refresh"));
+                    employeeService.saveEmpleadoToSharedPreferences(new Gson().fromJson(response.getString("empleado"), Empleado.class));
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }));
     }
 
 }

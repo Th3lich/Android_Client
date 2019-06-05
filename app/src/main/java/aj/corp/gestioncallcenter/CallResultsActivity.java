@@ -19,18 +19,29 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import aj.corp.gestioncallcenter.adapters.AdapterLlamadas;
+import aj.corp.gestioncallcenter.models.Empleado;
 import aj.corp.gestioncallcenter.models.Llamada;
+import aj.corp.gestioncallcenter.services.ApiService;
 import aj.corp.gestioncallcenter.services.CallService;
+import aj.corp.gestioncallcenter.services.EmployeeService;
+import aj.corp.gestioncallcenter.services.UtilService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
 import aj.corp.gestioncallcenter.utilities.RecyclerItemTouchHelper;
 import aj.corp.gestioncallcenter.utilities.RecyclerItemTouchHelperListener;
 
 public class CallResultsActivity extends AppCompatActivity implements RecyclerItemTouchHelperListener {
 
+    private EmployeeService employeeService = new EmployeeService();
+    private ApiService apiService = new ApiService();
+    private UtilService utilService = new UtilService();
     private RequestQueue queue = Volley.newRequestQueue(ApplicationContext.getAppContext());
     private CallService callService = new CallService();
 
@@ -66,7 +77,25 @@ public class CallResultsActivity extends AppCompatActivity implements RecyclerIt
         tv_sin_resultados.setVisibility(View.VISIBLE);
         tv_sin_resultados.setText("No hay resultados para éste filtro");
 
+        checkUser();
         setFilter();
+    }
+
+    private void checkUser(){
+        queue.add(apiService.checkUser(CallResultsActivity.this, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    System.out.println(response.toString());
+                    utilService.saveTokenToSharedPreferences(response.getString("token"));
+                    utilService.saveRefreshTokenToSharedPreferences(response.getString("refresh"));
+                    employeeService.saveEmpleadoToSharedPreferences(new Gson().fromJson(response.getString("empleado"), Empleado.class));
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }));
     }
 
     public void setFilter(){

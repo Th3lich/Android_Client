@@ -1,5 +1,4 @@
 package aj.corp.gestioncallcenter.adapters;
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,12 +11,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import aj.corp.gestioncallcenter.AddEditEmployeeActivity;
 import aj.corp.gestioncallcenter.R;
-import aj.corp.gestioncallcenter.SearchEmployeeActivity;
+import aj.corp.gestioncallcenter.SearchOperatorActivity;
 import aj.corp.gestioncallcenter.models.Item;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
@@ -26,15 +23,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public Context context;
     private int lastPosition = -1;
     private boolean isOperator = false;
+    private SearchOperatorActivity searchOperatorActivity = new SearchOperatorActivity();
 
     public ItemAdapter(Context context, ArrayList<Item> items){
         this.context = context;
         this.items = items;
     }
 
-    public ItemAdapter(Context context, ArrayList<Item> items, boolean isOperator){
+    public ItemAdapter(Context context, ArrayList<Item> items, SearchOperatorActivity searchOperatorActivity, boolean isOperator){
         this.context = context;
         this.items = items;
+        this.searchOperatorActivity = searchOperatorActivity;
         this.isOperator = isOperator;
     }
 
@@ -60,17 +59,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemAdapter.ItemViewHolder itemViewHolder, int i) {
+    public void onBindViewHolder(@NonNull ItemAdapter.ItemViewHolder itemViewHolder, final int i) {
         final Item item = items.get(i);
         itemViewHolder.tv_item.setText(item.Contenido);
         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isOperator){
-
+                    searchOperatorActivity.OperatorDialogEdit(i);
                 }else{
                     Intent intent = new Intent(context, AddEditEmployeeActivity.class);
-                    intent.putExtra("empleado", item.Id);
+                    intent.putExtra("empleado", Integer.valueOf(item.Id));
                     intent.putExtra("edit", true);
                     context.startActivity(intent);
                 }

@@ -76,8 +76,8 @@ public class AdminActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    public void checkUser(){
-        queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+    private void checkUser(){
+        queue.add(apiService.checkUser(AdminActivity.this, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -108,24 +108,20 @@ public class AdminActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         switch (item.getItemId()) {
-            case R.id.nav_home:
+            case R.id.nav_call_register:
                 setFragment(0);
                 return true;
-            case R.id.nav_call_register:
+            case R.id.nav_perfil:
                 setFragment(1);
                 return true;
-            case R.id.nav_perfil:
+            case R.id.nav_planillas:
                 setFragment(2);
                 return true;
-            case R.id.nav_planillas:
+            case R.id.nav_administration:
                 setFragment(3);
                 return true;
-            case R.id.nav_administration:
-                setFragment(4);
-                return true;
             case R.id.nav_logout:
-                utilService.clearSharedPreferences();
-                finish();
+                apiService.logout();
                 return true;
         }
         return true;
@@ -138,32 +134,25 @@ public class AdminActivity extends AppCompatActivity
             case 0:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                MenuFragment menuFragment = new MenuFragment();
-                fragmentTransaction.replace(R.id.fragment, menuFragment);
-                fragmentTransaction.commit();
-                break;
-            case 1:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
                 CallRegisterFragment callRegisterFragment = new CallRegisterFragment();
                 fragmentTransaction.replace(R.id.fragment, callRegisterFragment);
                 fragmentTransaction.commit();
                 break;
-            case 2:
+            case 1:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 PerfilFragment perfilFragment = new PerfilFragment();
                 fragmentTransaction.replace(R.id.fragment, perfilFragment);
                 fragmentTransaction.commit();
                 break;
-            case 3:
+            case 2:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 PlanillasFragment planillasFragment = new PlanillasFragment();
                 fragmentTransaction.replace(R.id.fragment, planillasFragment);
                 fragmentTransaction.commit();
                 break;
-            case 4:
+            case 3:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 AdministrationFragment administrationFragment = new AdministrationFragment();

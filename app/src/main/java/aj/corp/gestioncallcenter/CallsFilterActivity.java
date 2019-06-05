@@ -80,7 +80,7 @@ public class CallsFilterActivity extends AppCompatActivity {
         getUltimaLlamada();
     }
 
-    public void checkUser(){
+    private void checkUser(){
         queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -196,7 +196,7 @@ public class CallsFilterActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(CallsFilterActivity.this);
         builder.setTitle("Elige un operador");
 
-        View viewInflated = LayoutInflater.from(CallsFilterActivity.this).inflate(R.layout.frame_operadores, null);
+        View viewInflated = LayoutInflater.from(CallsFilterActivity.this).inflate(R.layout.dialog_operadores, null);
 
         final RecyclerView rv_operadores = viewInflated.findViewById(R.id.rv_operadores);
         builder.setView(viewInflated);

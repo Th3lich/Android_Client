@@ -28,7 +28,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:background="@drawable/edit_text_borders"
+        android:background="@drawable/et_filled_white"
         android:ems="10"
         android:inputType="date"
         android:textColor="@color/colorText"

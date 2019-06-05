@@ -77,8 +77,8 @@ public class EmployeeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    public void checkUser(){
-        queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+    private void checkUser(){
+        queue.add(apiService.checkUser(EmployeeActivity.this, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -116,8 +116,7 @@ public class EmployeeActivity extends AppCompatActivity
                 setFragment(1);
                 return true;
             case R.id.nav_logout:
-                utilService.clearSharedPreferences();
-                finish();
+                apiService.logout();
                 return true;
         }
         return true;

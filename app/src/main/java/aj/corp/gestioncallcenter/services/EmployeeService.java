@@ -1,7 +1,5 @@
 package aj.corp.gestioncallcenter.services;
 
-import android.content.Context;
-
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -48,6 +46,22 @@ public class EmployeeService {
             e.printStackTrace();
         }
         return this.apiService.put(this.serviceURL+"/pass",callback,parameters);
+    }
+
+    public JsonRequest isAdmin(Response.Listener<JSONObject> callback, int idEmpleado){
+        return this.apiService.get(this.serviceURL+"/permisos/"+idEmpleado, callback);
+    }
+
+    public JsonRequest changePermission(Response.Listener<JSONObject> callback, int idEmpleado, int permission){
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("id",idEmpleado);
+            parameters.put("permisos",permission);
+
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        return this.apiService.put(this.serviceURL+"/permisos", callback, parameters);
     }
 
     public void saveEmpleadoToSharedPreferences(Empleado empleado){

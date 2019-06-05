@@ -1,5 +1,6 @@
 package aj.corp.gestioncallcenter.services;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -157,7 +158,8 @@ public class ApiService {
     }
 
     public void logout(){
-        System.out.println("FALTA PROGRAMAR");
+        utilService.clearSharedPreferences();
+        ((Activity) context).finish();
     }
 
     public Map getDefaultHeaders(){
@@ -241,7 +243,7 @@ public class ApiService {
                     }
                     Dialogs.ErrorAlertDialog(context, titulo, mensaje, "aceptar" );
                 }catch (Exception e){
-
+                    e.printStackTrace();
                 }
             }
         };

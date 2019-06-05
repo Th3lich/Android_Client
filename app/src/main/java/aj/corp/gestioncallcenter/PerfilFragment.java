@@ -62,12 +62,12 @@ public class PerfilFragment extends Fragment {
         tv_user.setText(empleado.User);
         tv_fecha.setText(empleado.Fecha_contratacion);
 
-        if(empleado.Direccion.toString().compareTo("") != 0){
+        if(empleado.Direccion.compareTo("") != 0){
             tv_direccion.setText(empleado.Direccion);
         }else{
             tv_direccion.setText("sin dirección");
         }
-        if(empleado.Telefono.toString().compareTo("") != 0){
+        if(empleado.Telefono.compareTo("") != 0){
             tv_telefono.setText(empleado.Telefono);
         }else{
             tv_telefono.setText("sin teléfono");
@@ -76,7 +76,7 @@ public class PerfilFragment extends Fragment {
         bt_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logout();
+                apiService.logout();
             }
         });
 
@@ -87,7 +87,7 @@ public class PerfilFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Cambiar Contraseña");
 
-        View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.frame_text_input_layout, (ViewGroup) getView(), false);
+        View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.dialog_change_password, (ViewGroup) getView(), false);
 
         final EditText et_pass = viewInflated.findViewById(R.id.et_pass);
         final EditText et_repass = viewInflated.findViewById(R.id.et_repass);
@@ -104,7 +104,7 @@ public class PerfilFragment extends Fragment {
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     System.out.println(response.toString());
-                                    logout();
+                                    apiService.logout();
                                 }
                             }
                             , empleado.Id, et_pass.getText().toString())
@@ -123,7 +123,7 @@ public class PerfilFragment extends Fragment {
     }
 
     private void checkUser(){
-        queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+        queue.add(apiService.checkUser(getActivity(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -147,11 +147,6 @@ public class PerfilFragment extends Fragment {
                 }
             }
         }));
-    }
-
-    public void logout(){
-        utilService.clearSharedPreferences();
-        getActivity().finish();
     }
 
     @Override

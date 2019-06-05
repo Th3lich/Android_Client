@@ -15,7 +15,7 @@ public class Empleado {
     public String Telefono;
     public String Fecha_contratacion;
 
-    public Empleado(int id, String user, String nombre, String apellidos, String direccion, String telefono, String fecha_contratacion) {
+    public Empleado(Integer id, String user, String nombre, String apellidos, String direccion, String telefono, String fecha_contratacion) {
         this.Id = id;
         this.User = user;
         this.Nombre = nombre;

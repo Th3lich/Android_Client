@@ -217,8 +217,8 @@ public class PlanillasFragment extends Fragment {
         return view;
     }
 
-    public void checkUser(){
-        queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+    private void checkUser(){
+        queue.add(apiService.checkUser(getActivity(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -261,7 +261,7 @@ public class PlanillasFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Elige un operador");
 
-        View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.frame_operadores, null);
+        View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_operadores, null);
 
         final RecyclerView rv_operadores = viewInflated.findViewById(R.id.rv_operadores);
         builder.setView(viewInflated);

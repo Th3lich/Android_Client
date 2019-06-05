@@ -200,8 +200,8 @@ public class EditCallActivity extends AppCompatActivity {
 
     }
 
-    public void checkUser(){
-        queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+    private void checkUser(){
+        queue.add(apiService.checkUser(EditCallActivity.this, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

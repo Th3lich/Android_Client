@@ -185,8 +185,8 @@ public class CallRegisterFragment extends Fragment {
         return view;
     }
 
-    public void checkUser(){
-        queue.add(apiService.checkUser(ApplicationContext.getAppContext(), new Response.Listener<JSONObject>() {
+    private void checkUser(){
+        queue.add(apiService.checkUser(getActivity(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
