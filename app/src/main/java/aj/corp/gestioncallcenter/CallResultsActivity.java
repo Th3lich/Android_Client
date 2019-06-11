@@ -150,28 +150,35 @@ public class CallResultsActivity extends AppCompatActivity implements RecyclerIt
     }
 
     public void getLlamadasByDia(){
+        loadingbar.show();
         llamadas.clear();
-        queue.add(callService.getLlamadasByDia(
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        System.out.println(response.toString());
-                        setTitle("Resultados: " + response.length());
-                        if (response != null) {
-                            tv_sin_resultados.setVisibility(View.GONE);
-                            for (int i = 0; i < response.length(); i++) {
-                                try {
-                                    llamadas.add(new Llamada(response.getJSONObject(i)));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+        new Thread() {
+            @Override
+            public void run() {
+                queue.add(callService.getLlamadasByDia(
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                System.out.println(response.toString());
+                                setTitle("Resultados: " + response.length());
+                                if (response != null) {
+                                    tv_sin_resultados.setVisibility(View.GONE);
+                                    for (int i = 0; i < response.length(); i++) {
+                                        try {
+                                            llamadas.add(new Llamada(response.getJSONObject(i)));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
 //                            setRecycler();
-                        }
-
-                        loadingbar.cancel();
-                    }
-                }, dia));
+                                }
+                                Message msg = new Message();
+                                msg.what = 100;
+                                puente.sendMessage(msg);
+                            }
+                        }, dia));
+            }
+        }.start();
     }
 
     public void getLlamadasByOperador(){
@@ -208,48 +215,66 @@ public class CallResultsActivity extends AppCompatActivity implements RecyclerIt
 
     public void getLlamadasByDiaOperador(){
         llamadas.clear();
-        queue.add(callService.getLlamadasByDiaOperador(
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        System.out.println(response.toString());
-                        setTitle("Resultados: "+response.length());
-                        if (response != null) {
-                            for (int i = 0; i < response.length(); i++) {
-                                tv_sin_resultados.setVisibility(View.GONE);
-                                try {
-                                    llamadas.add(new Llamada(response.getJSONObject(i)));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+        loadingbar.show();
+        new Thread() {
+            @Override
+            public void run() {
+                queue.add(callService.getLlamadasByDiaOperador(
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                System.out.println(response.toString());
+                                setTitle("Resultados: " + response.length());
+                                if (response != null) {
+                                    for (int i = 0; i < response.length(); i++) {
+                                        tv_sin_resultados.setVisibility(View.GONE);
+                                        try {
+                                            llamadas.add(new Llamada(response.getJSONObject(i)));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+//                                    setRecycler();
                                 }
+                                Message msg = new Message();
+                                msg.what = 100;
+                                puente.sendMessage(msg);
                             }
-                            setRecycler();
-                        }
-                    }
-                }, dia, id_operador));
+                        }, dia, id_operador));
+            }
+        }.start();
     }
 
     public void getAllLlamadas(){
+        loadingbar.show();
         llamadas.clear();
-        queue.add(callService.getAllLlamadas(
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        System.out.println(response.toString());
-                        setTitle("Resultados: "+response.length());
-                        if (response != null) {
-                            for (int i = 0; i < response.length(); i++) {
-                                tv_sin_resultados.setVisibility(View.GONE);
-                                try {
-                                    llamadas.add(new Llamada(response.getJSONObject(i)));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+        new Thread() {
+            @Override
+            public void run() {
+                queue.add(callService.getAllLlamadas(
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                System.out.println(response.toString());
+                                setTitle("Resultados: " + response.length());
+                                if (response != null) {
+                                    for (int i = 0; i < response.length(); i++) {
+                                        tv_sin_resultados.setVisibility(View.GONE);
+                                        try {
+                                            llamadas.add(new Llamada(response.getJSONObject(i)));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+//                                    setRecycler();
                                 }
+                                Message msg = new Message();
+                                msg.what = 100;
+                                puente.sendMessage(msg);
                             }
-                            setRecycler();
-                        }
-                    }
-                }));
+                        }));
+            }
+        }.start();
     }
 
     public void deleteLlamada(final Llamada llamada){
