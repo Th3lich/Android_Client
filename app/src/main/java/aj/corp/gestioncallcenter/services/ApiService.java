@@ -26,14 +26,23 @@ public class ApiService {
 
 
 //    public static final String API = "http://192.168.1.34:1313";
+
     public static final String API = "http://88.22.139.97:1313";
 
     private UtilService utilService = new UtilService();
     public Context context;
 
     public JsonObjectRequest get(String url, Response.Listener<JSONObject> successResponse){
-
         return new JsonObjectRequest(Request.Method.GET, url, null, successResponse, this.errorRequest()) {
+            @Override
+            public Map getHeaders(){
+                return getDefaultHeaders();
+            }
+        };
+    }
+
+    public JsonObjectRequest post(String url, Response.Listener<JSONObject> successResponse, final JSONObject params){
+        return new JsonObjectRequest(Request.Method.POST, url, params, successResponse, this.errorRequest()) {
             @Override
             public Map getHeaders(){
                 return getDefaultHeaders();
@@ -52,15 +61,6 @@ public class ApiService {
 
     public StringRequest getString(String url, Response.Listener<String> successResponse){
         return new StringRequest(Request.Method.GET, url, successResponse, this.errorRequest()){
-            @Override
-            public Map getHeaders(){
-                return getDefaultHeaders();
-            }
-        };
-    }
-
-    public JsonObjectRequest post(String url, Response.Listener<JSONObject> successResponse, final JSONObject params){
-        return new JsonObjectRequest(Request.Method.POST, url, params, successResponse, this.errorRequest()) {
             @Override
             public Map getHeaders(){
                 return getDefaultHeaders();

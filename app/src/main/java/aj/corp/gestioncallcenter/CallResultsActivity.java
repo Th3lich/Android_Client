@@ -3,8 +3,11 @@ package aj.corp.gestioncallcenter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +39,8 @@ import aj.corp.gestioncallcenter.services.UtilService;
 import aj.corp.gestioncallcenter.shared.ApplicationContext;
 import aj.corp.gestioncallcenter.utilities.RecyclerItemTouchHelper;
 import aj.corp.gestioncallcenter.utilities.RecyclerItemTouchHelperListener;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
 
 public class CallResultsActivity extends AppCompatActivity implements RecyclerItemTouchHelperListener {
 
@@ -51,6 +56,17 @@ public class CallResultsActivity extends AppCompatActivity implements RecyclerIt
     private ArrayList<Llamada> llamadas = new ArrayList<>();
     private AdapterLlamadas adapterLlamadas;
     private CoordinatorLayout root_layout;
+    private ACProgressFlower loadingbar;
+
+    final Handler puente = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 100){
+                loadingbar.dismiss();
+                setRecycler();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +85,12 @@ public class CallResultsActivity extends AppCompatActivity implements RecyclerIt
                 finish();
             }
         });
+
+        loadingbar = new ACProgressFlower.Builder(this)
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.WHITE)
+                .text("Cargando")
+                .fadeColor(Color.DKGRAY).build();
 
         root_layout = findViewById(R.id.root_layout);
         rv_llamadas = findViewById(R.id.rv_llamadas);
@@ -134,7 +156,7 @@ public class CallResultsActivity extends AppCompatActivity implements RecyclerIt
                     @Override
                     public void onResponse(JSONArray response) {
                         System.out.println(response.toString());
-                        setTitle("Resultados: "+response.length());
+                        setTitle("Resultados: " + response.length());
                         if (response != null) {
                             tv_sin_resultados.setVisibility(View.GONE);
                             for (int i = 0; i < response.length(); i++) {
@@ -144,34 +166,44 @@ public class CallResultsActivity extends AppCompatActivity implements RecyclerIt
                                     e.printStackTrace();
                                 }
                             }
-                            setRecycler();
+//                            setRecycler();
                         }
 
+                        loadingbar.cancel();
                     }
                 }, dia));
     }
 
     public void getLlamadasByOperador(){
+        loadingbar.show();
         llamadas.clear();
-        queue.add(callService.getLlamadasByOperador(
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        System.out.println(response.toString());
-                        setTitle("Resultados: "+response.length());
-                        if (response != null) {
-                            for (int i = 0; i < response.length(); i++) {
-                                tv_sin_resultados.setVisibility(View.GONE);
-                                try {
-                                    llamadas.add(new Llamada(response.getJSONObject(i)));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+        new Thread() {
+            @Override
+            public void run() {
+                queue.add(callService.getLlamadasByOperador(
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                System.out.println(response.toString());
+                                setTitle("Resultados: " + response.length());
+                                if (response != null) {
+                                    for (int i = 0; i < response.length(); i++) {
+                                        tv_sin_resultados.setVisibility(View.GONE);
+                                        try {
+                                            llamadas.add(new Llamada(response.getJSONObject(i)));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    //                            setRecycler();
                                 }
+                                Message msg = new Message();
+                                msg.what = 100;
+                                puente.sendMessage(msg);
                             }
-                            setRecycler();
-                        }
-                    }
-                }, id_operador));
+                        }, id_operador));
+            }
+        }.start();
     }
 
     public void getLlamadasByDiaOperador(){
